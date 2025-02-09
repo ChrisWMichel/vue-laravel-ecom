@@ -9,14 +9,13 @@
             <Bars3Icon class="w-6 h-6" />
         </button>
         <div>
-                    <Link
-                        :href="route('home')"
-                        class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        target="_blank"
-                    >
-                        Public Home
-                    </Link>
-                </div>
+            <Link
+                :href="route('home')"
+                class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+                Public Home
+            </Link>
+        </div>
         <div class="flex items-center justify-between">
             <Menu as="div" class="relative inline-block text-left">
                 <div>

@@ -280,8 +280,7 @@ import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import adminLayout from "@/Layouts/adminLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import ImageManager from "@/Components/UI/ImageManager.vue";
-import { ref, computed } from "vue";
-import testingImageManager from "@/Components/UI/testingImageManager.vue";
+import { ref, computed, watch } from "vue";
 import TextEditor from "@/Components/TextEditor.vue";
 
 const props = defineProps({
@@ -319,11 +318,18 @@ const imagesDisabled = computed(
         !!props.product.third_image
 );
 
+watch(
+    () => form.qty,
+    (newQty) => {
+        form.status = newQty > 0;
+    }
+);
+
 const submitForm = () => {
-    console.log(
-        "Generated route: ",
-        route("admin.products.update", props.product)
-    );
+    // console.log(
+    //     "Generated route: ",
+    //     route("admin.products.update", props.product)
+    // );
 
     form.put(route("admin.products.update", props.product), {
         onFinish: () => {

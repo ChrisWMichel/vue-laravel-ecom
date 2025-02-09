@@ -95,6 +95,27 @@
                                     Register
                                 </Link>
                             </template>
+                            <div>
+                                <Link
+                                    :href="itemCount > 0 ? route('cart') : '#'"
+                                    :class="{
+                                        'hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]':
+                                            itemCount > 0,
+                                        'cursor-not-allowed text-gray-400':
+                                            itemCount === 0,
+                                    }"
+                                >
+                                    <ShoppingCartIcon
+                                        class="w-6 h-6 text-gray-500"
+                                    />
+                                    <div
+                                        v-if="itemCount > 0"
+                                        class="absolute flex items-center justify-center w-5 h-5 ml-5 text-xs font-medium text-white bg-red-500 border border-white rounded-full top-3 right-85"
+                                    >
+                                        {{ itemCount }}
+                                    </div>
+                                </Link>
+                            </div>
                         </div>
 
                         <!-- Hamburger -->
@@ -225,17 +246,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
-import { HomeIcon } from "@heroicons/vue/24/outline";
+import { HomeIcon, ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { useCartStore } from "@/stores/useCartStore";
 
 const showingNavigationDropdown = ref(false);
+const cartStore = useCartStore();
+
+const itemCount = computed(() => {
+    // const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    // return cartItems.length;
+    return cartStore.cartItems.length;
+});
 </script>
 
 <style scoped></style>

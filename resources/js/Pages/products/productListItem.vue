@@ -44,9 +44,9 @@
                         }"
                         class="mb-2 mr-2 border-2 border-gray-500 rounded-full"
                         :class="{
-                            'color-border': color.id === selectedColor,
+                            'color-border': color.name === selectedColor,
                         }"
-                        @click="selectColor(color.id)"
+                        @click="selectColor(color.name)"
                     ></div>
                 </div>
                 <div class="mt-4 text-lg">Select Size</div>
@@ -61,9 +61,9 @@
                         }"
                         class="flex items-center justify-center mb-2 mr-2 text-black border-2 border-gray-500"
                         :class="{
-                            'size-bg': size.id === selectedSize,
+                            'size-bg': size.name === selectedSize,
                         }"
-                        @click="selectSize(size.id)"
+                        @click="selectSize(size.name)"
                     >
                         {{ size.name }}
                     </div>
@@ -79,7 +79,7 @@
                         >
                     </span>
                     <span class="p-2 bg-red-500 rounded-md" v-else>
-                        Out Stock
+                        Out of Stock
                     </span>
                 </div>
                 <div class="inline-flex items-center mt-4">
@@ -117,11 +117,11 @@ import { router } from "@inertiajs/vue3";
 import { useProductDetailsStore } from "@/stores/productDetailsStore";
 import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import { useCartStore } from "@/stores/useCartStore";
+import { makeUniqueId } from "@/helpers/config";
 
 const props = defineProps({
     product: Object,
 });
-
 
 const cart = useCartStore();
 const productDetails = useProductDetailsStore();
@@ -140,11 +140,11 @@ onMounted(() => {
     }
 });
 
-const selectColor = (colorId) => {
-    selectedColor.value = colorId;
+const selectColor = (colorName) => {
+    selectedColor.value = colorName;
 };
-const selectSize = (sizeId) => {
-    selectedSize.value = sizeId;
+const selectSize = (sizeName) => {
+    selectedSize.value = sizeName;
 };
 
 const updateThumbnail = (image) => {
@@ -170,10 +170,22 @@ const addToCart = () => {
         size: selectedSize.value,
         qty: quantity.value,
         product_id: productDetails.selectedProduct.id,
+        price: productDetails.selectedProduct.price,
+        name: productDetails.selectedProduct.name,
+        thumbnail: thumbnail.value,
+        desc: productDetails.selectedProduct.desc,
+        slug: productDetails.selectedProduct.slug,
+        inStock: productDetails.selectedProduct.qty,
+        coupon_id: null,
+        ref: makeUniqueId(10),
     };
-    cart.addToCart(attributes.value);
-    productDetails.unsetSelectedProduct();
-    router.get(route("home"));
+    const result = cart.addToCart(attributes.value);
+    if (result.success) {
+        productDetails.unsetSelectedProduct();
+        router.get(route("home"));
+    } else {
+        console.error(result.message);
+    }
 };
 
 const goBack = () => {
@@ -185,9 +197,6 @@ const goBack = () => {
 </script>
 
 <style scoped>
-.standard-button {
-    @apply mt-3 cursor-pointer mb-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700;
-}
 .flex-shrink-0 {
     flex-shrink: 0;
 }

@@ -24,11 +24,22 @@
                     <!--  -->
                 </div>
             </div>
+            <div v-if="!product.status">
+                <span class="p-2 ml-4 bg-yellow-500 rounded-md">
+                    Out of Stock
+                </span>
+            </div>
         </div>
         <div class="flex items-center justify-between p-4 mt-auto bg-gray-200">
             <button
+                :class="{
+                    'cursor-not-allowed': !product.status,
+                    'bg-blue-500': product.status,
+                    'bg-gray-500': !product.status,
+                }"
+                :disabled="!product.status"
                 class="flex items-center justify-between px-4 py-2 text-white bg-blue-500 rounded-lg"
-                @click="addToCart(product)"
+                @click="selectProduct"
             >
                 <ShoppingCartIcon class="w-6 h-6 mr-2" />
                 Add to Cart
@@ -69,10 +80,6 @@ const emit = defineEmits(["selectProduct"]);
 
 const selectProduct = () => {
     emit("selectProduct", props.product);
-};
-
-const addToCart = (product) => {
-    // Add to cart logic
 };
 
 const toggleFavorite = () => {

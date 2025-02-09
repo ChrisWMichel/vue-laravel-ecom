@@ -21,6 +21,14 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
+Route::get('/cart', function () {
+    return Inertia::render('cart/Cart');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return Inertia::render('cart/checkout');
+})->name('checkout');
+
 Route::get('/admin/login',[AdminController::class,"login"])->name("admin.login");
 Route::post('admin/auth',[AdminController::class,"auth"])->name("admin.auth");
 
