@@ -1,12 +1,15 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useToast } from "vue-toastification";
+import { usePage } from "@inertiajs/vue3";
 //import axios from "axios";
 //import { BASE_URL } from "../helpers/config";
 
 export const useCartStore = defineStore("cart", () => {
-    const cartItems = ref(JSON.parse(localStorage.getItem("cartItems")) || []);
-    const totalPrice = ref(0);
+    const { auth } = usePage().props.value || { auth: { user: null } };
+    const cartItems = ref(
+        auth.user ? JSON.parse(localStorage.getItem("cartItems")) || [] : []
+    );
     const toast = useToast();
 
     const addToCart = (product) => {
@@ -66,9 +69,14 @@ export const useCartStore = defineStore("cart", () => {
         localStorage.setItem("cartItems", JSON.stringify(cartItems.value));
     };
 
-    const clearCartItems = () => {
+    const clearCart = () => {
         cartItems.value = [];
         localStorage.removeItem("cartItems");
+    };
+    const clearCartNoUser = () => {
+        if (!auth.user) {
+            cartItems.value = [];
+        }
     };
 
     const changeQty = (product, quantity) => {
@@ -143,7 +151,8 @@ export const useCartStore = defineStore("cart", () => {
         addToCart,
         changeQty,
         removeFromCart,
-        clearCartItems,
+        clearCart,
+        clearCartNoUser,
         getTotalPrice,
         getTotalProducts,
         getTotalQuantity,

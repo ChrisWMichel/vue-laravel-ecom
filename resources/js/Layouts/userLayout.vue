@@ -74,6 +74,7 @@
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
+                                            @click="cartStore.clearCartNoUser()"
                                         >
                                             Log Out
                                         </DropdownLink>
@@ -174,7 +175,7 @@
                             :href="route('home')"
                             :active="route().current('home')"
                         >
-                            Dashboard
+                            Home
                         </ResponsiveNavLink>
                     </div>
 
@@ -207,6 +208,7 @@
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
+                                @click="cartStore.clearCartNoUser()"
                             >
                                 Log Out
                             </ResponsiveNavLink>
@@ -265,6 +267,10 @@ const itemCount = computed(() => {
     // return cartItems.length;
     return cartStore.cartItems.length;
 });
+
+// const clearCart = () => {
+//     cartStore.clearCart();
+// };
 </script>
 
 <style scoped></style>

@@ -54,7 +54,7 @@
 
 <script setup>
 import { onMounted, computed, ref } from "vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import userLayout from "@/Layouts/userLayout.vue";
 import { useProductStore } from "@/stores/productStore";
 import spinner from "@/Layouts/spinner.vue";
@@ -63,9 +63,11 @@ import productList from "./products/productList.vue";
 import { ArrowDownIcon } from "@heroicons/vue/24/outline";
 import productListItem from "./products/productListItem.vue";
 import { useProductDetailsStore } from "@/stores/productDetailsStore";
+import Swal from "sweetalert2";
 
 const productStore = useProductStore();
 const productDetails = useProductDetailsStore();
+const { flash } = usePage().props;
 
 const selectProduct = (product) => {
     productDetails.setSelectedProduct(product);
@@ -81,6 +83,18 @@ const slicedProducts = computed(() => {
 
 onMounted(() => {
     productStore.fetchAllProducts();
+
+    if (flash.success) {
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: flash.success,
+            showConfirmButton: false,
+            timer: 2000,
+        }).then(() => {
+            flash.success = null;
+        });
+    }
 });
 //console.log(productStore);
 const loadMoreProducts = () => {

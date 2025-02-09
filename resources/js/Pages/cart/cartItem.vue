@@ -97,7 +97,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type="number"] {
+/* input[type="number"] {
     -moz-appearance: textfield;
-}
+} */
 </style>
