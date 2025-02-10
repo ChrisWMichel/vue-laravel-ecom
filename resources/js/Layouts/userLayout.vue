@@ -48,6 +48,18 @@
                                                 <span>{{
                                                     $page.props.auth.user.name
                                                 }}</span>
+                                                <img
+                                                    v-if="
+                                                        $page.props.auth.user
+                                                            .profile_image
+                                                    "
+                                                    :src="
+                                                        $page.props.auth.user
+                                                            .profile_image
+                                                    "
+                                                    alt="Profile Photo"
+                                                    class="w-8 h-8 ml-2 rounded-full"
+                                                />
                                                 <svg
                                                     class="-me-0.5 ms-2 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +86,6 @@
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
-                                            @click="cartStore.clearCartNoUser()"
                                         >
                                             Log Out
                                         </DropdownLink>
@@ -96,7 +107,7 @@
                                     Register
                                 </Link>
                             </template>
-                            <div>
+                            <div class="ml-4">
                                 <Link
                                     :href="itemCount > 0 ? route('cart') : '#'"
                                     :class="{
@@ -208,7 +219,6 @@
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
-                                @click="cartStore.clearCartNoUser()"
                             >
                                 Log Out
                             </ResponsiveNavLink>

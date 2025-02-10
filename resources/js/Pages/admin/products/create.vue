@@ -248,7 +248,7 @@
                                 />
                                 <InputError
                                     class="mt-2"
-                                    :message="form.errors.thumbnail"
+                                    :message="form.errors.images"
                                 />
                             </div>
                         </div>
