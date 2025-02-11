@@ -43,28 +43,29 @@ class ProfileController extends Controller
 
     public function updateAddress(UserAddressUpdateRequest $request): RedirectResponse
     { 
-        // $validated = $request->validated();
+        $user = $request->user();
+        $user->fill($request->validated());
+        $user->profile_completed = 1;
+            
+        $request->user()->save();
 
-        // $user = $request->user();
+        return Redirect::route('profile.edit')->with('success', 'Address updated successfully.');
+    }
 
-        // $user->fill($validated);
-        $request->user()->fill($request->validated());
-        
-        // if ($request->hasFile('profile_image')) {
-        //     User::removeProfileImageFromStorage($user->profile_image);
-        //     // Save new image
-        //     $user->profile_image = $this->saveImage($request->file('profile_image'));
-        // }
+    public function updateImage(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
 
-        // $user->save();
-        if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('profile_image') ) {
             User::removeProfileImageFromStorage($request->user()->profile_image);
             $request->user()->profile_image = $this->saveImage($request->file('profile_image'));
         }
     
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('success', 'Address updated successfully.');
+        return Redirect::route('profile.edit')->with('success', 'Image updated successfully.');
     }
 
 

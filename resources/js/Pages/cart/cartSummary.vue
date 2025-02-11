@@ -23,11 +23,20 @@
                     Continue Shopping
                 </Link>
                 <Link
+                    v-if="user"
                     class="!bg-green-800 standard-button"
                     :href="route('checkout')"
                 >
                     Checkout
                 </Link>
+                <div v-else class="mt-3">
+                    <Link
+                        :href="route('user.login.view')"
+                        class="!bg-green-800 standard-button"
+                    >
+                        Login to Checkout
+                    </Link>
+                </div>
             </div>
         </div>
     </div>
@@ -36,9 +45,10 @@
 <script setup>
 import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import { useCartStore } from "@/stores/useCartStore";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 
+const user = usePage().props.auth.user;
 const cartStore = useCartStore();
 </script>
 
-<style scoped></style>
+<stylonentsed></stylonentsed>

@@ -1,12 +1,7 @@
 <?php
 
 use Inertia\Inertia;
-use App\Models\Brand;
-use App\Models\Color;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\AdminController;
@@ -15,8 +10,6 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -27,7 +20,7 @@ Route::get('/cart', function () {
 })->name('cart');
 
 Route::get('/checkout', function () {
-    return Inertia::render('cart/checkout');
+    return Inertia::render('checkout/checkout');
 })->name('checkout');
 
 Route::get('/admin/login',[AdminController::class,"login"])->name("admin.login");
@@ -96,13 +89,10 @@ Route::prefix("admin")->middleware("admin")->group(function() {
 });
 
 
-//Route::post('/profile-address', function (UserAddressUpdateRequest $request) {
-//    dd($request->all());
-//})->name('update.address');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile-address', [ProfileController::class, 'updateAddress'])->name('update.address');
+    Route::post('/profile-image', [ProfileController::class, 'updateImage'])->name('update.profile.image');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

@@ -273,14 +273,8 @@ const showingNavigationDropdown = ref(false);
 const cartStore = useCartStore();
 
 const itemCount = computed(() => {
-    // const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    // return cartItems.length;
     return cartStore.cartItems.length;
 });
-
-// const clearCart = () => {
-//     cartStore.clearCart();
-// };
 </script>
 
 <style scoped></style>

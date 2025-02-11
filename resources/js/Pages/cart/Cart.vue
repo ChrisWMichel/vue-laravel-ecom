@@ -21,8 +21,8 @@
                             <th class="p-2 text-center border"></th>
 
                             <th class="p-2 text-center border">Price</th>
-                            <th class="p-2 text-center border">Colors</th>
-                            <th class="p-2 text-center border">Sizes</th>
+                            <th class="p-2 text-center border">Color</th>
+                            <th class="p-2 text-center border">Size</th>
 
                             <th class="p-2 text-center border">Total</th>
                             <th class="p-2 text-center border">Quantity</th>
@@ -46,7 +46,7 @@
                 </table>
             </div>
             <div class="col-span-1 md:col-span-4">
-                <cartSummary />
+                <cartSummary v-if="cartItems.length > 0" />
             </div>
         </div>
     </userLayout>

@@ -6,6 +6,7 @@ import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationFor
 import { Head } from "@inertiajs/vue3";
 import AddressInfo from "./Partials/AddressInfo.vue";
 import { defineProps, onMounted } from "vue";
+import UpdateImage from "./Partials/UpdateImage.vue";
 import Swal from "sweetalert2";
 
 const props = defineProps({
@@ -50,6 +51,9 @@ onMounted(() => {
             <div class="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
                 <div class="p-4 bg-white shadow sm:rounded-lg sm:p-8">
                     <AddressInfo :status="status" class="max-w-xl" />
+                </div>
+                <div class="p-4 bg-white shadow sm:rounded-lg sm:p-8">
+                    <UpdateImage class="max-w-xl" />
                 </div>
                 <div class="p-4 bg-white shadow sm:rounded-lg sm:p-8">
                     <UpdateProfileInformationForm

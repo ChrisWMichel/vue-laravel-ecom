@@ -4,15 +4,18 @@
             <h2 class="text-lg font-medium text-gray-900">
                 Address Information
             </h2>
-
-            <p class="mt-1 text-sm text-gray-600">Update your address.</p>
+            <Link
+                v-if="removeBtn"
+                :href="route('profile.edit')"
+                class="text-sm text-indigo-600 hover:underline"
+                >Update your address.</Link
+            >
+            <p v-else class="mt-1 text-sm text-gray-600">
+                Update your address.
+            </p>
         </header>
 
-        <form
-            @submit.prevent="submitForm"
-            enctype="multipart/form-data"
-            class="mt-6 space-y-6"
-        >
+        <form @submit.prevent="submitForm" class="mt-6 space-y-6">
             <div>
                 <InputLabel for="address" value="Address" />
 
@@ -24,6 +27,7 @@
                     required
                     autofocus
                     autocomplete="address"
+                    :disabled="removeBtn"
                 />
 
                 <InputError class="mt-2" :message="form.errors.address" />
@@ -39,6 +43,7 @@
                     v-model="form.city"
                     required
                     autocomplete="city"
+                    :disabled="removeBtn"
                 />
 
                 <InputError class="mt-2" :message="form.errors.city" />
@@ -53,6 +58,7 @@
                     v-model="form.country"
                     required
                     autocomplete="country"
+                    :disabled="removeBtn"
                 />
 
                 <InputError class="mt-2" :message="form.errors.country" />
@@ -67,6 +73,7 @@
                     v-model="form.zip_code"
                     required
                     autocomplete="postal_code"
+                    :disabled="removeBtn"
                 />
 
                 <InputError class="mt-2" :message="form.errors.zip_code" />
@@ -81,40 +88,14 @@
                     v-model="form.phone_number"
                     required
                     autocomplete="phone"
+                    :disabled="removeBtn"
                 />
 
                 <InputError class="mt-2" :message="form.errors.phone_number" />
             </div>
 
-            <div>
-                <InputLabel for="profile_image" value="Profile Image" />
-
-                <input
-                    @change="handleProfileChange"
-                    id="profile_image"
-                    type="file"
-                    class="block w-full mt-1"
-                />
-
-                <InputError class="mt-2" :message="form.errors.profile_image" />
-            </div>
-
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4" v-if="!removeBtn">
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
-                    </p>
-                </Transition>
             </div>
         </form>
     </section>
@@ -124,11 +105,18 @@
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm, usePage } from "@inertiajs/vue3";
+import { useForm, usePage, Link } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 
 const user = usePage().props.auth.user;
 const toast = useToast();
+defineProps({
+    removeBtn: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+});
 
 const form = useForm({
     address: user.address || "",
@@ -138,10 +126,6 @@ const form = useForm({
     phone_number: user.phone_number || "",
     profile_image: null,
 });
-
-const handleProfileChange = (event) => {
-    form.profile_image = event.target.files[0] || null;
-};
 
 const submitForm = async () => {
     form.post(route("update.address"), {

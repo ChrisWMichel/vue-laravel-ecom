@@ -1,5 +1,5 @@
 <template>
-    <div>Checkout</div>
+    <div>Create</div>
 </template>
 
 <script setup></script>

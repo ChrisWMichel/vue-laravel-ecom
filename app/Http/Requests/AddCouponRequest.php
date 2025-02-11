@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserAddressUpdateRequest extends FormRequest
+class AddCouponRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,9 @@ class UserAddressUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'country' => ['required', 'string', 'max:255'],
-            'zip_code' => ['required', 'string', 'max:255'],
-            'phone_number' => ['nullable', 'string', 'max:255']
+            'name' => 'required|string',
+            'discount' => 'required|numeric',
+            'valid_until' => 'required|date'
         ];
     }
 }
