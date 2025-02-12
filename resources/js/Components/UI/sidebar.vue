@@ -47,6 +47,14 @@
             <span class="mr-2 text-gray-300"><TagIcon class="w-5" /></span>
             <span>Products</span>
         </Link>
+        <div class="my20 text-center">--</div>
+        <Link
+            :href="route('admin.coupons.index')"
+            class="flex items-center p-4 transition-colors rounded hover:bg-black/30"
+        >
+            <span class="mr-2 text-gray-300"><TicketIcon class="w-5" /></span>
+            <span>Coupons</span>
+        </Link>
     </div>
 </template>
 
@@ -62,6 +70,7 @@ import {
     SwatchIcon,
     PencilIcon,
     TagIcon,
+    TicketIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 

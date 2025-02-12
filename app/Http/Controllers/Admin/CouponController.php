@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
 use App\Models\Coupon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
+use App\Http\Requests\AddCouponRequest;
+use App\Http\Requests\UpdateCouponRequest;
 
 class CouponController extends Controller
 {
@@ -15,8 +17,17 @@ class CouponController extends Controller
      */
     public function index()
     {
-        return Inertia::render('admin/coupon/index')->with([
-            'coupons' => Coupon::latest()->get()
+        $coupons = Coupon::latest()->get()->map(function ($coupon) {
+            return [
+                'id' => $coupon->id,
+                'name' => $coupon->name,
+                'discount' => $coupon->discount,
+                'valid_until' => $coupon->valid_until,
+                'is_valid' => $coupon->checkIfValid(),
+            ];
+        });
+        return Inertia::render('admin/coupons/index')->with([
+            'coupons' => $coupons
          ]);
     }
 
@@ -25,20 +36,18 @@ class CouponController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/coupon/create');
+        return Inertia::render('admin/coupons/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AddCouponRequest $request)
     {
         if($request->validated()) {
-            $data = $request->validated();
-            $data['slug'] = Str::slug($data['name']);
-            Coupon::create($data);
+            Coupon::create($request->validated());
 
-            return redirect()->route('admin.coupon.index')->with('success', 'Coupon added successfully');
+            return redirect()->route('admin.coupons.index')->with('success', 'Coupon added successfully');
         }
     }
 
@@ -55,7 +64,7 @@ class CouponController extends Controller
      */
     public function edit(Coupon $coupon)
     {
-        return Inertia::render('admin/coupon/edit')->with([
+        return Inertia::render('admin/coupons/edit')->with([
             'coupon' => $coupon
          ]);
     }
@@ -63,9 +72,12 @@ class CouponController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(UpdateCouponRequest $request, Coupon $coupon)
     {
-        //
+        
+        $coupon->update($request->validated());
+
+            return redirect()->route('admin.coupons.index')->with('success', 'Coupon updated successfully');
     }
 
     /**
@@ -73,6 +85,8 @@ class CouponController extends Controller
      */
     public function destroy(Coupon $coupon)
     {
-        //
+        $coupon->delete();
+
+        return redirect()->route('admin.coupons.index');
     }
 }

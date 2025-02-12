@@ -25,9 +25,10 @@
                     <checkoutItems />
                 </div>
                 <div
-                    class="w-full md:w-1/4 mt-4 md:mt-0 flex justify-center md:justify-start"
+                    class="w-full md:w-1/4 mt-4 md:mt-0 flex flex-col justify-center md:justify-start"
                 >
-                    <stripe />
+                    <div class="mb-4"><coupon /></div>
+                    <div><stripePayment /></div>
                 </div>
             </div>
         </div>
@@ -53,7 +54,8 @@ import { onMounted } from "vue";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { ArrowDownCircleIcon } from "@heroicons/vue/24/outline";
 import checkoutItems from "../checkout/checkoutItems.vue";
-import stripe from "../checkout/stripe.vue";
+import stripePayment from "./stripePayment.vue";
+import coupon from "@/Components/Coupon/coupon.vue";
 
 const cartStore = useCartStore();
 const toast = useToast();

@@ -31,7 +31,7 @@
                             <td class="p-2 text-center border">
                                 <div class="flex items-center justify-center">
                                     <img
-                                        class="w-8 h-8 md:w-20 md:h-20 mb-1 rounded-lg"
+                                        class="w-8 h-8 mb-1 rounded-lg md:w-20 md:h-20"
                                         :src="getImageUrl(product.thumbnail)"
                                         :alt="product.name"
                                     />
@@ -97,19 +97,34 @@
                         <tr>
                             <td colspan="4"></td>
                             <td class="p-2 text-center border">
-                                Discount (0)%
+                                Coupon ({{
+                                    cartStore.validCoupon
+                                        ? cartStore.validCoupon.discount
+                                        : 0
+                                }})%
+                                <span
+                                    v-if="cartStore.validCoupon"
+                                    class="text-green-500"
+                                    >{{ cartStore.validCoupon.name }}</span
+                                >
                             </td>
                             <td colspan="2" class="p-2 text-center border">
-                                <!-- <FormatPrice class="text-red-700" :price="coupon" /> -->
+                                <FormatPrice
+                                    class="text-red-700"
+                                    :price="coupon"
+                                />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
-                            <td class="p-2 text-center font-bold border">
+                            <td class="p-2 font-bold text-center border">
                                 Total
                             </td>
-                            <td colspan="2" class="p-2 text-center border">
-                                <!-- <FormatPrice :price="total" /> -->
+                            <td
+                                colspan="2"
+                                class="p-2 font-extrabold text-center border"
+                            >
+                                <FormatPrice :price="total" />
                             </td>
                         </tr>
                     </tfoot>
@@ -132,6 +147,15 @@ const getImageUrl = (path) => {
 
 const taxes = computed(() => {
     return cartStore.getTotalPrice * 0.035;
+});
+
+// calculate discount
+const coupon = computed(() => {
+    return cartStore.getTotalPrice * (cartStore.validCoupon.discount / 100);
+});
+// calculate total
+const total = computed(() => {
+    return cartStore.getTotalPrice + taxes.value - coupon.value;
 });
 </script>
 

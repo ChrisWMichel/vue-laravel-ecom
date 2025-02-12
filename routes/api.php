@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\ProductController;
 
 // Route::get('/user', function (Request $request) {
@@ -17,4 +18,6 @@ Route::get('/products/{size}/size', [ProductController::class, 'filterProductsBy
 Route::get('/products/search/{term}', [ProductController::class, 'search']);
 
 Route::get('/products/{product}/show', [ProductController::class, 'show']);
+
+Route::post('apply/coupon', [CouponController::class, 'applyCoupon']);
 

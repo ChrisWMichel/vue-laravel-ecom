@@ -6,6 +6,13 @@ import { useToast } from "vue-toastification";
 export const useCartStore = defineStore("cart", () => {
     //const { auth } = usePage().props.value || { auth: { user: null } };
     const cartItems = ref(JSON.parse(localStorage.getItem("cartItems")) || []);
+    const validCoupon = ref(
+        JSON.parse(localStorage.getItem("validCoupon")) || {
+            name: "",
+            discount: 0,
+        }
+    );
+    const uniqueHash = ref("");
     const toast = useToast();
 
     const addToCart = (product) => {
@@ -126,6 +133,23 @@ export const useCartStore = defineStore("cart", () => {
         };
     };
 
+    const setValidCoupon = (coupon) => {
+        validCoupon.value = coupon;
+        localStorage.setItem("validCoupon", JSON.stringify(validCoupon.value));
+    };
+
+    const addCouponToCartItems = (coupon_id) => {
+        cartItems.value = cartItems.value.map((item) => {
+            return { ...item, coupon_id };
+        });
+        //console.log("cartItems.value", cartItems.value);
+        localStorage.setItem("cartItems", JSON.stringify(cartItems.value));
+    };
+
+    const setUniqueHash = (hash) => {
+        uniqueHash.value = hash;
+    };
+
     const getTotalPrice = computed(() => {
         return cartItems.value.reduce((total, item) => {
             return total + item.price * item.qty;
@@ -144,11 +168,15 @@ export const useCartStore = defineStore("cart", () => {
 
     return {
         cartItems,
+        validCoupon,
         addToCart,
         changeQty,
         removeFromCart,
         clearCart,
         clearCartNoUser,
+        setValidCoupon,
+        addCouponToCartItems,
+        setUniqueHash,
         getTotalPrice,
         getTotalProducts,
         getTotalQuantity,
