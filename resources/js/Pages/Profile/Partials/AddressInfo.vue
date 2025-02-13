@@ -19,13 +19,12 @@
             <div>
                 <InputLabel for="address" value="Address" />
 
-                <input
+                <TextInput
                     id="address"
                     type="text"
                     class="block w-full mt-1"
                     v-model="form.address"
                     required
-                    autofocus
                     autocomplete="address"
                     :disabled="removeBtn"
                 />
@@ -107,6 +106,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm, usePage, Link } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
+import TextInput from "@/Components/TextInput.vue";
 
 const user = usePage().props.auth.user;
 const toast = useToast();

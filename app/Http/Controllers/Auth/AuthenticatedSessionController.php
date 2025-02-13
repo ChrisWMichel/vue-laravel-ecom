@@ -33,8 +33,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // return redirect()->intended(route('product.index', absolute: false));
-        //return redirect()->intended(route('admin.dashboard', absolute: false));
         
         return redirect()->intended(route('home', absolute: false))->with('success', 'You are logged in!');
     }

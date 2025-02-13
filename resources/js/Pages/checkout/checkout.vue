@@ -3,7 +3,7 @@
     <userLayout>
         <div
             v-if="user && user.address"
-            class="container mx-auto items-center my-10"
+            class="container items-center mx-auto my-10"
         >
             <div class="w-1/4 mx-auto">
                 <Disclosure>
@@ -20,15 +20,15 @@
                     </DisclosurePanel>
                 </Disclosure>
             </div>
-            <div class="flex flex-col md:flex-row justify-between mt-4 w-full">
+            <div class="flex flex-col justify-between w-full mt-4 md:flex-row">
                 <div class="w-full md:w-3/4">
                     <checkoutItems />
                 </div>
                 <div
-                    class="w-full md:w-1/4 mt-4 md:mt-0 flex flex-col justify-center md:justify-start"
+                    class="flex flex-col justify-center w-full mt-4 md:w-1/4 md:mt-0 md:justify-start"
                 >
                     <div class="mb-4"><coupon /></div>
-                    <div><stripePayment /></div>
+                    <div><Stripe /></div>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="flex items-center justify-center h-96">
                 <Link
                     :href="route('profile.edit')"
-                    class="text-indigo-600 hover:underline text-2xl"
+                    class="text-2xl text-indigo-600 hover:underline"
                     >Please add an address to your profile.</Link
                 >
             </div>
@@ -54,8 +54,8 @@ import { onMounted } from "vue";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { ArrowDownCircleIcon } from "@heroicons/vue/24/outline";
 import checkoutItems from "../checkout/checkoutItems.vue";
-import stripePayment from "./stripePayment.vue";
-import coupon from "@/Components/Coupon/coupon.vue";
+import Stripe from "@/Pages/payments/Strip.vue";
+import coupon from "@/Pages/Coupon/coupon.vue";
 
 const cartStore = useCartStore();
 const toast = useToast();

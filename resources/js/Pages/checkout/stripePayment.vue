@@ -3,13 +3,7 @@
         <div class="text-2xl font-bold mb-4">Credit Card Information</div>
         <form @submit.prevent="handleSubmit">
             <div id="card-element" class="mb-4"></div>
-            <button
-                type="submit"
-                class="standard-button"
-                :disabled="processing"
-            >
-                Pay Now
-            </button>
+            <button type="submit" class="standard-button">Pay Now</button>
         </form>
     </div>
 </template>

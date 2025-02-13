@@ -4,7 +4,8 @@
             <h1 class="text-2xl font-bold">Coupons</h1>
             <p class="mb-2">
                 Add
-                <span class="bg-green-600 font-bold text-gray-300 p-1"
+                <span
+                    class="p-1 font-bold text-gray-300 bg-green-600 rounded-md"
                     >Vuejs</span
                 >
                 in the coupon field to get 20% off!
@@ -12,13 +13,14 @@
             <div class="col-span-12">
                 <div class="flex">
                     <input
+                        id="coupon"
                         v-model="data.coupon.name"
                         type="text"
                         placeholder="Enter coupon name..."
                         class="px-4 py-2 border rounded-l-md"
                     />
                     <button
-                        class="px-4 py-2 text-white bg-gray-800 rounded-r-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+                        class="px-4 py-2 text-white bg-gray-800 cursor-pointer rounded-r-md disabled:cursor-not-allowed disabled:opacity-50"
                         :disabled="!data.coupon.name"
                         @click="applyCoupon"
                     >

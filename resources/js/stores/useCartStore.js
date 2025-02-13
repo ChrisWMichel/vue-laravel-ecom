@@ -12,7 +12,7 @@ export const useCartStore = defineStore("cart", () => {
             discount: 0,
         }
     );
-    const uniqueHash = ref("");
+    const uniqueHash = ref(localStorage.getItem("uniqueHash") || "");
     const toast = useToast();
 
     const addToCart = (product) => {
@@ -148,6 +148,7 @@ export const useCartStore = defineStore("cart", () => {
 
     const setUniqueHash = (hash) => {
         uniqueHash.value = hash;
+        localStorage.setItem("uniqueHash", hash);
     };
 
     const getTotalPrice = computed(() => {
@@ -177,6 +178,7 @@ export const useCartStore = defineStore("cart", () => {
         setValidCoupon,
         addCouponToCartItems,
         setUniqueHash,
+        uniqueHash,
         getTotalPrice,
         getTotalProducts,
         getTotalQuantity,

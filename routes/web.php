@@ -108,6 +108,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/success/payment/{hash}', function ($hash) {
+    
+    return Inertia::render('payments/successPayment', ['hash' => $hash]);
+})->name('success.payment');
+
 
 
 require __DIR__.'/auth.php';
