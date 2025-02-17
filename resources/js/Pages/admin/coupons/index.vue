@@ -18,7 +18,7 @@
             <div class="flex justify-end col-span-12 p-6">
                 <input
                     type="text"
-                    placeholder="Search categories..."
+                    placeholder="Search coupons..."
                     class="px-4 py-2 border rounded-md"
                     v-model="searchQuery"
                 />
@@ -73,7 +73,7 @@
                         </td>
                         <td class="p-2 text-center border">
                             <button
-                                class="px-4 py-2 mr-4 text-white bg-green-500 rounded-md"
+                                class="px-2 py-2 mr-4 text-green-500 rounded-md"
                                 @click="editCoupon(coupon)"
                             >
                                 <span class="flex items-center">
@@ -81,7 +81,7 @@
                                 </span>
                             </button>
                             <button
-                                class="px-4 py-2 text-white bg-red-500 rounded-md"
+                                class="px-2 py-2 text-red-500 rounded-md"
                                 @click="deleteCoupon(coupon)"
                             >
                                 <span class="flex items-center">

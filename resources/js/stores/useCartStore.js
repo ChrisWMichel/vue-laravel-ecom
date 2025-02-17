@@ -16,8 +16,6 @@ export const useCartStore = defineStore("cart", () => {
     const toast = useToast();
 
     const addToCart = (product) => {
-        console.log("cartStore - cartItems:", cartItems.value);
-        console.log("cartStore - product:", product);
         const item = cartItems.value.find(
             (item) =>
                 item.product_id === product.product_id &&

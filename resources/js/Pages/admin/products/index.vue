@@ -134,7 +134,7 @@
                         </td>
                         <td class="p-2 text-center border">
                             <button
-                                class="px-4 py-2 mr-4 text-white bg-green-500 rounded-md"
+                                class="px-2 py-2 mr-4 text-green-500 rounded-md"
                                 @click="editProduct(product)"
                             >
                                 <span class="flex items-center">
@@ -142,7 +142,7 @@
                                 </span>
                             </button>
                             <button
-                                class="px-4 py-2 text-white bg-red-500 rounded-md"
+                                class="px-2 py-2 text-red-500 rounded-md"
                                 @click="deleteProduct(product)"
                             >
                                 <span class="flex items-center">

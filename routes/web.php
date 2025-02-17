@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -94,6 +95,10 @@ Route::prefix("admin")->middleware("admin")->group(function() {
         ]
     ]);
 
+    Route::get('orders',[OrderController::class,"index"])->name("admin.orders.index");
+    Route::get('update/{order}/order',[OrderController::class,"updateDeliveredAtDate"])->name("admin.orders.update");
+    Route::delete('delete/{order}/order',[OrderController::class,"delete"])->name("admin.orders.delete");
+
     // Routes for image handling
     Route::delete('images/{product}/{imageField}', [ImageController::class, 'deleteImage'])->name('admin.images.delete');
     Route::post('images/{product}/{imageField}', [ImageController::class, 'updateImage'])->name('admin.images.update');
@@ -106,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile-image', [ProfileController::class, 'updateImage'])->name('update.profile.image');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
 });
 
 Route::get('/success/payment/{hash}', function ($hash) {

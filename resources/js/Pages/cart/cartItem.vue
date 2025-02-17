@@ -50,7 +50,7 @@
 
     <td class="p-2 text-center border">
         <button
-            class="px-4 py-2 text-white bg-red-500 rounded-md"
+            class="px-2 py-2 text-red-500 rounded-md"
             @click="emitRemoveItem"
         >
             <span class="flex items-center"> X </span>

@@ -269,6 +269,12 @@ import { HomeIcon, ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { useCartStore } from "@/stores/useCartStore";
 
+const profileImageUrl = computed(() => {
+    return user.profile_image
+        ? asset(user.profile_image)
+        : "/default-profile.png";
+});
+
 const showingNavigationDropdown = ref(false);
 const cartStore = useCartStore();
 

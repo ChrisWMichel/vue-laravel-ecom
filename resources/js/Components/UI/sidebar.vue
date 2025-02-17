@@ -55,6 +55,15 @@
             <span class="mr-2 text-gray-300"><TicketIcon class="w-5" /></span>
             <span>Coupons</span>
         </Link>
+        <Link
+            :href="route('admin.orders.index')"
+            class="flex items-center p-4 transition-colors rounded hover:bg-black/30"
+        >
+            <span class="mr-2 text-gray-300"
+                ><ShoppingBagIcon class="w-5"
+            /></span>
+            <span>Orders</span>
+        </Link>
     </div>
 </template>
 
@@ -71,6 +80,7 @@ import {
     PencilIcon,
     TagIcon,
     TicketIcon,
+    ShoppingBagIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 

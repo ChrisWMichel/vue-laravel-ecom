@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserAddressUpdateRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class ProfileController extends Controller
@@ -68,6 +69,22 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('success', 'Image updated successfully.');
     }
 
+    public function orders()
+    {
+        if (Auth::check()) {
+            $userId = Auth::id();
+
+            $user = User::with('orders')->find($userId);
+            
+            return Inertia::render('Profile/orderHistory', [
+                'orders' => $user->orders
+            ]);
+
+        }
+
+        // Redirect to login if the user is not authenticated
+        return redirect()->route('user-login-view');
+    }
 
 
     /**

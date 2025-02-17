@@ -22,7 +22,7 @@
                 <button
                     type="submit"
                     class="mt-3 btn btn-sm btn-dark"
-                    v-if="data.productsToShow < productsStore.products.length"
+                    v-if="data.productsToShow < productStore.products.length"
                     @click="loadMoreProducts"
                 >
                     <i class="bi bi-arrow-clockwise"></i> Load more
@@ -50,7 +50,7 @@ const data = reactive({
 onMounted(() => {
     console.log("onMounted is called");
     productStore.fetchAllProducts();
-    console.log("productStore.products:", productStore.products);
+    //console.log("productStore.products:", productStore.products);
 });
 
 const loadMoreProducts = () => {
