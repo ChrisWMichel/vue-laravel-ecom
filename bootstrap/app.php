@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
+
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'log.requests' => \App\Http\Middleware\LogRequests::class,

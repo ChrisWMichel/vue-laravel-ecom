@@ -51,6 +51,7 @@ export const useCartStore = defineStore("cart", () => {
             };
         } else {
             cartItems.value.push({ ...product });
+
             toast("Item added to cart.", {
                 type: "success",
             });

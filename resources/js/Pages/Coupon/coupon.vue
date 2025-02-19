@@ -57,7 +57,7 @@ const applyCoupon = async () => {
             data.coupon,
             {
                 headers: {
-                    Authorization: `Bearer ${user.api_token}`,
+                    Authorization: `Bearer ${user?.api_token}`,
                 },
             }
         );

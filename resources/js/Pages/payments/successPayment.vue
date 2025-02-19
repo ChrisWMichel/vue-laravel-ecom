@@ -51,7 +51,7 @@ const storeUserOrders = async () => {
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
-                    Authorization: `Bearer ${user.api_token}`,
+                    Authorization: `Bearer ${user?.api_token}`,
                 },
             }
         );

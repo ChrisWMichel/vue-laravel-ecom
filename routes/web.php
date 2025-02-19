@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\AdminController;
@@ -119,6 +120,9 @@ Route::get('/success/payment/{hash}', function ($hash) {
     return Inertia::render('payments/successPayment', ['hash' => $hash]);
 })->name('success.payment');
 
+Route::post('store/review', [ReviewController::class, 'store'])->name('store.review');
+Route::put('update/review/{id}', [ReviewController::class, 'update'])->name('update.review');
+Route::delete('delete/review/{id}', [ReviewController::class, 'destroy'])->name('delete.review');
 
 
 require __DIR__.'/auth.php';

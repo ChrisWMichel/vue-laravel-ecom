@@ -25,3 +25,5 @@ Route::post('apply/coupon', [CouponController::class, 'applyCoupon']);
 Route::post('store/order', [StripeController::class, 'storeUserOrders']);
 Route::post('pay/order', [StripeController::class, 'payOrdersByStripe']);
 
+
+
