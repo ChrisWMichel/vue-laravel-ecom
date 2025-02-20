@@ -93,7 +93,7 @@
                             class="form-control"
                         />
                     </div>
-                   
+
                     <div class="ml-2 mt-9">
                         <button
                             :class="{
@@ -106,13 +106,12 @@
                             Add to Cart
                         </button>
                     </div>
-                   
                 </div>
-                <div v-if="productDetails.selectedProduct && user">
-                    <addReview class="flex items-center justify-center w-full"/>
-                </div>
-                
             </div>
+        </div>
+        <display-review />
+        <div v-if="productDetails.selectedProduct && user">
+            <addReview class="flex items-center justify-center w-full" />
         </div>
     </div>
 </template>
@@ -125,6 +124,7 @@ import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import { useCartStore } from "@/stores/useCartStore";
 import { makeUniqueId } from "@/helpers/config";
 import addReview from "../reviews/addReview.vue";
+import displayReview from "../reviews/displayReview.vue";
 
 const user = usePage().props.auth.user;
 
@@ -141,7 +141,7 @@ const selectedColor = ref("");
 const selectedSize = ref("");
 const quantity = ref(1);
 const attributes = ref({});
-//console.log("productDetails", productDetails.selectedProduct);
+
 onMounted(() => {
     if (productDetails.selectedProduct) {
         productImages.value =

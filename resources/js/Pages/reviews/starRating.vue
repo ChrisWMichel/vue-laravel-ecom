@@ -9,8 +9,9 @@
             :class="[
                 'star',
                 i <= (isHovered ? hoverValue : rating) ? 'filled' : '',
+                width,
             ]"
-            class="w-10"
+            :style="{ fontSize: `${fontSize}px` }"
         >
             ★
         </div>
@@ -29,6 +30,14 @@ export default {
         maxStars: {
             type: Number,
             default: 5,
+        },
+        fontSize: {
+            type: Number,
+            default: 34, // Default font size
+        },
+        width: {
+            type: String,
+            default: "w-10",
         },
     },
     setup(props, { emit }) {

@@ -120,6 +120,7 @@ Route::get('/success/payment/{hash}', function ($hash) {
     return Inertia::render('payments/successPayment', ['hash' => $hash]);
 })->name('success.payment');
 
+Route::get('reviews/{productId}', [ReviewController::class, 'index'])->name('reviews.index');
 Route::post('store/review', [ReviewController::class, 'store'])->name('store.review');
 Route::put('update/review/{id}', [ReviewController::class, 'update'])->name('update.review');
 Route::delete('delete/review/{id}', [ReviewController::class, 'destroy'])->name('delete.review');

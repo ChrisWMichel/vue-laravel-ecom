@@ -18,10 +18,21 @@
                     v-dompurify-html="product.desc.substring(0, 75) + '...'"
                 ></p>
 
-                <div class="flex items-center justify-between mx-4 mb-2">
+                <div class="flex items-center justify-between mx-4">
                     <FormatPrice :price="product.price" />
-                    <productReview />
-                    <!--  -->
+                    <div class="flex flex-col items-center col-span-1">
+                        <star-rating
+                            :rating="stars"
+                            :value="stars"
+                            :max-stars="5"
+                            :font-size="26"
+                            :width="'w-4'"
+                        />
+                        <span class="text-sm text-gray-600 star-spacing">
+                            {{ numberOfReviews }}
+                            {{ numberOfReviews > 1 ? "reviews" : "review" }}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div v-if="!product.status">
@@ -69,6 +80,7 @@ import { ref, computed } from "vue";
 import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import productReview from "@/Components/UI/productReview.vue";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
+import starRating from "../reviews/starRating.vue";
 
 const props = defineProps({
     product: Object,
@@ -77,7 +89,7 @@ const props = defineProps({
 const isFavorite = ref(false);
 //console.log("product", props.product);
 const emit = defineEmits(["selectProduct"]);
-
+const numberOfReviews = ref(0);
 const selectProduct = () => {
     emit("selectProduct", props.product);
 };
@@ -86,6 +98,22 @@ const toggleFavorite = () => {
     isFavorite.value = !isFavorite.value;
     console.log("Favorite status:", isFavorite.value);
 };
+
+// calculate the average of reviews
+const averageRating = (starNum) => {
+    numberOfReviews.value = starNum.length;
+    if (!Array.isArray(starNum) || starNum.length === 0) {
+        return 0;
+    }
+    const total = starNum.reduce((acc, review) => acc + review.rating, 0);
+    return total / starNum.length;
+};
+
+const stars = computed(() => averageRating(props.product.reviews));
 </script>
 
-<style scoped></style>
+<style scoped>
+.star-spacing {
+    margin-top: -10px;
+}
+</style>

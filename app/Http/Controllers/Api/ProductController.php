@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Log;
 use App\Models\Size;
 use Inertia\Inertia;
 use App\Models\Brand;
@@ -56,7 +55,15 @@ class ProductController extends Controller
         if(!$product){
             abort(404);
         }
-        $product->load(['colors', 'sizes', 'category', 'reviews', 'brand']);
+        $product->load([
+            'colors',
+            'sizes',
+            'category',
+            'brand',
+            'reviews' => function ($query) {
+                $query->where('approved', 1);
+            }
+        ]);
 
         return Inertia::render('products/show', [
             'product' => new ProductResource($product),

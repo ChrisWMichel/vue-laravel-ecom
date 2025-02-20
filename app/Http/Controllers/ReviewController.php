@@ -1,12 +1,25 @@
 <?php
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ReviewController extends Controller
 {
+    public function index($productId)
+{
+    $reviews = Review::with('user')
+    ->where('product_id', $productId)
+    ->where('approved', 1)
+    ->get();
+    
+    return response()->json([
+        'reviews' => $reviews,
+    ]);
+}
  
     /**
      * Store a newly created resource in storage.
@@ -44,23 +57,28 @@ class ReviewController extends Controller
                     'rating' => $request->rating,
                     'approved' => 0
                 ]);
-            return response()->json(['success' => 'Review updated successfully.'], 200);
+            
+            return redirect()->back()->with('success', 'Review updated successfully.');
             
         } else{
-            return response()->json(['error' => 'Something went wrong, try again later.'], 400);
+            
+            return redirect()->back()->with('error', 'Something went wrong, try again later.');
         }
     }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, string $id)
     {
-        $review = $this->ValidateUserReview($request);
+        $review = Review::where('id', $id)
+        ->where('user_id', $request->user_id)
+        ->first();
+        //dd($review);
         if ($review) {
             $review->delete();
-            return response()->json(['success' => 'Review deleted successfully.'], 200);
+            return redirect()->back()->with('success', 'Review deleted successfully.');
         } else{
-            return response()->json(['error' => 'Something went wrong, try again later.'], 400);
+            return redirect()->back()->with('error', 'Something went wrong, try again later.');
         }
     }
     /**
@@ -70,9 +88,11 @@ class ReviewController extends Controller
      */
     private function ValidateUserReview(Request $request)
     {
-      return Review::where('user_id', $request->user()->id)
-            ->where('product_id', $request->product_id)
-            ->exists();
+        return Review::where('user_id', $request->user_id)
+        ->where('product_id', $request->product_id)
+        ->first();
+
+     
     }
 }
 
