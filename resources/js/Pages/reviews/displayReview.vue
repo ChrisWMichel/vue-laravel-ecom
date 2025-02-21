@@ -107,10 +107,7 @@ const user = usePage().props.auth.user || null;
 const productDetails = useProductDetailsStore();
 const showModal = ref(false);
 const selectedReview = ref({});
-console.log(
-    "productDetails.selectedProduct.reviews",
-    productDetails.selectedProduct
-);
+
 onMounted(() => {
     if (productDetails.selectedProduct) {
         productDetails.fetchReviews(productDetails.selectedProduct.id);

@@ -30,8 +30,8 @@
                             <span
                                 class="p-1 font-extrabold text-center text-gray-300 bg-black rounded-lg"
                             >
-                                ${{ todayOrders.total }}</span
-                            >
+                                <format-price :price="todayTotal" />
+                            </span>
                         </div>
                     </BoxShadow>
                 </div>
@@ -60,8 +60,8 @@
                             <span
                                 class="p-1 text-center text-black bg-blue-400 rounded-lg"
                             >
-                                ${{ yesterdayOrders.total }}</span
-                            >
+                                <format-price :price="yesterdayTotal"
+                            /></span>
                         </div>
                     </BoxShadow>
                 </div>
@@ -89,8 +89,8 @@
                             <span
                                 class="p-1 text-center text-black bg-orange-400 rounded-lg"
                             >
-                                ${{ monthsOrders.total }}</span
-                            >
+                                <format-price :price="monthTotal" />
+                            </span>
                         </div>
                     </BoxShadow>
                 </div>
@@ -118,8 +118,8 @@
                             <span
                                 class="p-1 text-center text-black bg-green-400 rounded-lg"
                             >
-                                ${{ yearOrders.total }}</span
-                            >
+                                <format-price :price="yearTotal"
+                            /></span>
                         </div>
                     </BoxShadow>
                 </div>
@@ -132,6 +132,9 @@
 import { Head } from "@inertiajs/vue3";
 import adminLayout from "@/Layouts/adminLayout.vue";
 import BoxShadow from "@/Components/UI/BoxShadow.vue";
+import { computed } from "vue";
+import FormatPrice from "@/Components/UI/FormatPrice.vue";
+
 const props = defineProps({
     todayOrders: {
         type: Array,
@@ -148,5 +151,29 @@ const props = defineProps({
     admin: {
         type: Object,
     },
+});
+
+const todayTotal = computed(() => {
+    return props.todayOrders.reduce((acc, order) => {
+        return acc + Number(order.total);
+    }, 0);
+});
+
+const yesterdayTotal = computed(() => {
+    return props.yesterdayOrders.reduce((acc, order) => {
+        return acc + Number(order.total);
+    }, 0);
+});
+
+const monthTotal = computed(() => {
+    return props.monthsOrders.reduce((acc, order) => {
+        return acc + Number(order.total);
+    }, 0);
+});
+
+const yearTotal = computed(() => {
+    return props.yearOrders.reduce((acc, order) => {
+        return acc + Number(order.total);
+    }, 0);
 });
 </script>

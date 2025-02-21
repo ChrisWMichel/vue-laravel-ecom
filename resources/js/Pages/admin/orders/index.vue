@@ -48,7 +48,7 @@
                     >
                         <td class="p-2 text-center border">{{ index + 1 }}</td>
                         <td class="p-2 text-center border">
-                            {{ order.products[0].name }}
+                            {{ order.products.name }}
                         </td>
                         <td class="p-2 text-center border">
                             {{ order.price }}

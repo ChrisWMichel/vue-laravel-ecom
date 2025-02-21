@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -103,6 +104,10 @@ Route::prefix("admin")->middleware("admin")->group(function() {
     // Routes for image handling
     Route::delete('images/{product}/{imageField}', [ImageController::class, 'deleteImage'])->name('admin.images.delete');
     Route::post('images/{product}/{imageField}', [ImageController::class, 'updateImage'])->name('admin.images.update');
+
+    Route::get('reviews',[AdminReviewController::class,"index"])->name("admin.reviews.index");
+    Route::post('reviews/{review}/toggle/{status}',[AdminReviewController::class,"toggleApproveStatus"])->name("admin.reviews.toggle");
+    Route::delete('delete/{review}/review',[AdminReviewController::class,"index"])->name("admin.reviews.delete");
 });
 
 

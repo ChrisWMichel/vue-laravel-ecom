@@ -43,8 +43,15 @@ export const useCartStore = defineStore("cart", () => {
                 `Item already in cart. Quantity increased by ${product.qty}`,
                 {
                     type: "notice",
+                    style: {
+                        borderRadius: "10px",
+                        padding: "10px",
+                        backgroundColor: "#0000FF",
+                        color: "#000",
+                    },
                 }
             );
+
             return {
                 success: true,
                 message: "Item already in cart. Quantity increased.",

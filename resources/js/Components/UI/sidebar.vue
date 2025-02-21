@@ -47,7 +47,7 @@
             <span class="mr-2 text-gray-300"><TagIcon class="w-5" /></span>
             <span>Products</span>
         </Link>
-        <div class="my20 text-center">--</div>
+        <div class="text-center my20">--</div>
         <Link
             :href="route('admin.coupons.index')"
             class="flex items-center p-4 transition-colors rounded hover:bg-black/30"
@@ -63,6 +63,15 @@
                 ><ShoppingBagIcon class="w-5"
             /></span>
             <span>Orders</span>
+        </Link>
+        <Link
+            :href="route('admin.reviews.index')"
+            class="flex items-center p-4 transition-colors rounded hover:bg-black/30"
+        >
+            <span class="mr-2 text-gray-300"
+                ><PaperClipIcon class="w-5"
+            /></span>
+            <span>Reviews</span>
         </Link>
     </div>
 </template>
@@ -81,6 +90,7 @@ import {
     TagIcon,
     TicketIcon,
     ShoppingBagIcon,
+    PaperClipIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 

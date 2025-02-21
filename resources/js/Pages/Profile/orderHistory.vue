@@ -11,6 +11,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="p-2 text-center border">#</th>
+                            <th></th>
                             <th class="p-2 text-center border">Product Name</th>
                             <th class="p-2 text-center border">Price</th>
                             <th class="p-2 text-center border">Qty</th>
@@ -32,11 +33,22 @@
                                 {{ index + 1 }}
                             </td>
                             <td class="p-2 text-center border">
-                                <Link
+                                <img
+                                    :src="
+                                        getThumbnailUrl(
+                                            order.products[0].thumbnail
+                                        )
+                                    "
+                                    alt="Thumbnail"
+                                    class="w-12"
+                                />
+                            </td>
+                            <td class="p-2 text-center border">
+                                <!-- <Link
                                     :href="`/products/${order.products[0].id}/show`"
-                                >
-                                    {{ order.products[0].name }}
-                                </Link>
+                                > -->
+                                {{ order.products[0].name }}
+                                <!-- </Link> -->
                             </td>
                             <td class="p-2 text-center border">
                                 <FormatPrice :price="order.products[0].price" />
@@ -74,6 +86,9 @@ import profileNav from "./profileNav.vue";
 const props = defineProps({
     orders: Array,
 });
+const getThumbnailUrl = (thumbnail) => {
+    return `/${thumbnail}`;
+};
 </script>
 
 <style scoped></style>

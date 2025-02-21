@@ -308,7 +308,7 @@ const form = useForm({
     first_image: props.product.first_image || null,
     second_image: props.product.second_image || null,
     third_image: props.product.third_image || null,
-    status: true,
+    status: props.product.status > 0,
 });
 const thumbnailDisabled = computed(() => !!props.product.thumbnail);
 const imagesDisabled = computed(
@@ -321,7 +321,7 @@ const imagesDisabled = computed(
 watch(
     () => form.qty,
     (newQty) => {
-        form.status = newQty > 0;
+        form.status = newQty > 1;
     }
 );
 

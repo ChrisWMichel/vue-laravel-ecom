@@ -9,6 +9,7 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import VueDOMPurifyHTML from "vue-dompurify-html";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 const pinia = createPinia();
@@ -27,7 +28,7 @@ createInertiaApp({
             .use(VueDOMPurifyHTML)
             .use(Toast, {
                 position: "top-right",
-                timeout: 3000,
+                timeout: 4000,
                 closeOnClick: true,
                 pauseOnFocusLoss: true,
                 pauseOnHover: true,

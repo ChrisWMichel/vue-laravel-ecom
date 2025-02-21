@@ -211,7 +211,7 @@ const deleteProduct = (product) => {
                 },
             });
         } else if (result.isDismissed) {
-            Swal.fire("Changes are not saved", "", "info");
+            Swal.fire("Changes were not saved", "", "info");
         }
     });
 };
