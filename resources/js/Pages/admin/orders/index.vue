@@ -135,7 +135,7 @@ const props = defineProps({
     flash: Object,
     totalOrders: Number,
 });
-//console.log("orders", props.orders.data);
+console.log("orders", props.orders.data);
 const searchQuery = ref("");
 
 const filteredOrders = computed(() => {

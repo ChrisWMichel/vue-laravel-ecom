@@ -8,7 +8,7 @@ class OrdersService
 {
     public function getOrdersWithRelations()
     {
-        return Order::select('id', 'user_id', 'coupon_id', 'total', 'created_at', 'delivered_at')
+        return Order::select('id', 'user_id', 'coupon_id', 'total', 'created_at', 'qty', 'delivered_at')
             ->with([
                 'products:id,name,price', 
                 'user:id,name,email', 

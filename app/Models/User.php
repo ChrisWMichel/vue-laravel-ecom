@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -70,5 +71,10 @@ class User extends Authenticatable
         if ($relativePath && Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);
         }
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('F j, Y');
     }
 }

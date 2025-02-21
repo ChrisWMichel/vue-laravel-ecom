@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
@@ -108,6 +109,9 @@ Route::prefix("admin")->middleware("admin")->group(function() {
     Route::get('reviews',[AdminReviewController::class,"index"])->name("admin.reviews.index");
     Route::post('reviews/{review}/toggle/{status}',[AdminReviewController::class,"toggleApproveStatus"])->name("admin.reviews.toggle");
     Route::delete('delete/{review}/review',[AdminReviewController::class,"index"])->name("admin.reviews.delete");
+
+    Route::get('users',[UserController::class,"index"])->name("admin.users.index");
+    Route::delete('delete/{user}/user',[UserController::class,"delete"])->name("admin.user.delete");
 });
 
 

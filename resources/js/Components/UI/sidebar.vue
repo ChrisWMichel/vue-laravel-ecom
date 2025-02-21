@@ -73,6 +73,13 @@
             /></span>
             <span>Reviews</span>
         </Link>
+        <Link
+            :href="route('admin.users.index')"
+            class="flex items-center p-4 transition-colors rounded hover:bg-black/30"
+        >
+            <span class="mr-2 text-gray-300"><UsersIcon class="w-5" /></span>
+            <span>Users</span>
+        </Link>
     </div>
 </template>
 
@@ -91,6 +98,7 @@ import {
     TicketIcon,
     ShoppingBagIcon,
     PaperClipIcon,
+    UsersIcon,
 } from "@heroicons/vue/24/outline";
 </script>
 
