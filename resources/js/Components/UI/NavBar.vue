@@ -44,7 +44,7 @@
                         class="absolute right-0 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg w-36 ring-1 ring-black/5 focus:outline-none"
                     >
                         <div class="px-1 py-1">
-                            <MenuItem v-slot="{ active }">
+                            <!-- <MenuItem v-slot="{ active }">
                                 <Link
                                     :href="route('profile.edit')"
                                     :class="[
@@ -61,7 +61,7 @@
                                     />
                                     Profile
                                 </Link>
-                            </MenuItem>
+                            </MenuItem> -->
                             <MenuItem v-slot="{ active }">
                                 <button
                                     @click="admin.logout"

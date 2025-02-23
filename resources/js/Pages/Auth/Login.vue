@@ -5,6 +5,14 @@
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
         </div>
+        <div>
+            <h2 class="mt-6 text-lg font-extrabold text-gray-900">
+                email: admin@email.com
+            </h2>
+            <h2 class="mb-6 text-lg font-extrabold text-gray-900">
+                password: password
+            </h2>
+        </div>
 
         <form @submit.prevent="submit">
             <div>
@@ -18,6 +26,7 @@
                     required
                     autofocus
                     autocomplete="username"
+                    placeholder="admin@email.com"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
@@ -28,11 +37,11 @@
 
                 <TextInput
                     id="password"
-                    type="password"
                     class="block w-full mt-1"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
+                    placeholder="password"
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />

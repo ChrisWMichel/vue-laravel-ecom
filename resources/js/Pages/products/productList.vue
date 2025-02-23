@@ -58,7 +58,11 @@
             <svg
                 @click="toggleFavorite(product)"
                 xmlns="http://www.w3.org/2000/svg"
-                :fill="isFavorite ? 'currentColor' : 'none'"
+                :fill="
+                    favoriteStore.isFavorite(product).value
+                        ? 'currentColor'
+                        : 'none'
+                "
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 class="w-6 h-6 text-red-500 cursor-pointer"
@@ -81,12 +85,13 @@ import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import productReview from "@/Components/UI/productReview.vue";
 import { ShoppingCartIcon } from "@heroicons/vue/24/outline";
 import starRating from "../reviews/starRating.vue";
+import { useFavoriteStore } from "@/stores/useFavoriteStore";
 
 const props = defineProps({
     product: Object,
 });
 
-const isFavorite = ref(false);
+const favoriteStore = useFavoriteStore();
 
 const emit = defineEmits(["selectProduct"]);
 const numberOfReviews = ref(0);
@@ -94,8 +99,12 @@ const selectProduct = () => {
     emit("selectProduct", props.product);
 };
 
-const toggleFavorite = () => {
-    isFavorite.value = !isFavorite.value;
+const toggleFavorite = (product) => {
+    if (favoriteStore.isFavorite(product).value) {
+        favoriteStore.removeFromFavorite(product);
+    } else {
+        favoriteStore.addToFavorite(product);
+    }
 };
 
 // calculate the average of reviews

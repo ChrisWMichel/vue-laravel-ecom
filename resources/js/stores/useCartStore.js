@@ -1,10 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useToast } from "vue-toastification";
-//import { usePage } from "@inertiajs/vue3";
 
 export const useCartStore = defineStore("cart", () => {
-    //const { auth } = usePage().props.value || { auth: { user: null } };
     const cartItems = ref(JSON.parse(localStorage.getItem("cartItems")) || []);
     const validCoupon = ref(
         JSON.parse(localStorage.getItem("validCoupon")) || {
