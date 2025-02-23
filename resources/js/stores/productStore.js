@@ -31,9 +31,7 @@ export const useProductStore = defineStore("products", () => {
 
     const filterProducts = async (param, value) => {
         isLoading.value = true;
-        // console.log("param", param);
-        // console.log("value", value);
-        // console.log("URL: ", `${BASE_URL}/products/${value}/${param}`);
+
         try {
             const response = await axios.get(
                 `${BASE_URL}/products/${value}/${param}`

@@ -148,7 +148,7 @@ export const useCartStore = defineStore("cart", () => {
         cartItems.value = cartItems.value.map((item) => {
             return { ...item, coupon_id };
         });
-        //console.log("cartItems.value", cartItems.value);
+
         localStorage.setItem("cartItems", JSON.stringify(cartItems.value));
     };
 

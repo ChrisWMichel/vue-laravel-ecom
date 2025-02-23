@@ -48,9 +48,7 @@ const data = reactive({
 });
 
 onMounted(() => {
-    console.log("onMounted is called");
     productStore.fetchAllProducts();
-    //console.log("productStore.products:", productStore.products);
 });
 
 const loadMoreProducts = () => {

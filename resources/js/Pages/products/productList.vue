@@ -87,7 +87,7 @@ const props = defineProps({
 });
 
 const isFavorite = ref(false);
-//console.log("product", props.product);
+
 const emit = defineEmits(["selectProduct"]);
 const numberOfReviews = ref(0);
 const selectProduct = () => {
@@ -96,7 +96,6 @@ const selectProduct = () => {
 
 const toggleFavorite = () => {
     isFavorite.value = !isFavorite.value;
-    console.log("Favorite status:", isFavorite.value);
 };
 
 // calculate the average of reviews

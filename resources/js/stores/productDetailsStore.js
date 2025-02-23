@@ -45,20 +45,6 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
         }
         productImages.value.push(product.thumbnail);
     };
-    //     isLoading.value = true;
-    //     try {
-    //         const response = await axios.get(`${BASE_URL}/products`);
-    //         products.value = response.data.data;
-    //         categories.value = response.data.categories;
-    //         colors.value = response.data.colors;
-    //         brands.value = response.data.brands;
-    //         sizes.value = response.data.sizes;
-    //     } catch (error) {
-    //         console.log(error);
-    //     } finally {
-    //         isLoading.value = false;
-    //     }
-    // };
 
     const editReview = (review) => {
         reviewToUpdate.value = {
@@ -149,7 +135,6 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
         isLoading.value = true;
         try {
             const response = await axios.get(`/reviews/${productId}`);
-            //console.log("response", response);
             if (response.data.reviews) {
                 selectedProduct.value.reviews = response.data.reviews;
             } else {
@@ -168,7 +153,7 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
             review_id: review_id,
             user_id: user.id,
         });
-        //console.log("form", form);
+
         form.delete(`delete/review/${review_id}`, {
             onSuccess: (page) => {
                 if (page.props.flash.success) {

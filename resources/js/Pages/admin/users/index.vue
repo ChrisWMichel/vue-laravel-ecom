@@ -99,7 +99,7 @@ const props = defineProps({
     users: Object,
     flash: Object,
 });
-console.log("users", props.users.data);
+
 const searchQuery = ref("");
 
 const filteredUsers = computed(() => {

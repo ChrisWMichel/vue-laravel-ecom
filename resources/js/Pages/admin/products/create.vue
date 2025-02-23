@@ -310,7 +310,7 @@ const handleThumbnailChange = (event) => {
 };
 
 const submitForm = () => {
-    console.log("Form submitted");
+   
     form.post(route("admin.products.store"), {
         onFinish: () => {
             console.log("Form submission finished");

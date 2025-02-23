@@ -326,11 +326,6 @@ watch(
 );
 
 const submitForm = () => {
-    // console.log(
-    //     "Generated route: ",
-    //     route("admin.products.update", props.product)
-    // );
-
     form.put(route("admin.products.update", props.product), {
         onFinish: () => {
             console.log("Form submission finished");

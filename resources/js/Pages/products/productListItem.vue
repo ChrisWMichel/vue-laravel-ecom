@@ -148,7 +148,7 @@ onMounted(() => {
             productDetails.selectedProduct.productImages || [];
     }
 });
-//console.log('productDetails.selectedProduct', productDetails.selectedProduct);
+
 const selectColor = (colorName) => {
     selectedColor.value = colorName;
 };
@@ -201,8 +201,6 @@ const goBack = () => {
     productDetails.unsetSelectedProduct();
     router.get(route("home"));
 };
-
-//console.log("product", props.product);
 </script>
 
 <style scoped>

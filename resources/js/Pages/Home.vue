@@ -96,7 +96,7 @@ onMounted(() => {
         });
     }
 });
-//console.log(productStore);
+
 const loadMoreProducts = () => {
     if (
         productsToShow.value <

@@ -28,7 +28,6 @@ const data = reactive({
 });
 
 const searchForProducts = () => {
-    console.log("data.term", data.term);
     productsStore.searchProducts(data.term);
     data.term = "";
 };
