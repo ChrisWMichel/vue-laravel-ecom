@@ -13,7 +13,7 @@
             >
                 Profile
             </Link>
-            <Link
+            <!-- <Link
                 :href="route('profile.orders')"
                 :class="{
                     'text-2xl font-semibold leading-tight text-gray-800 hover:text-gray-300': true,
@@ -22,7 +22,7 @@
                 }"
             >
                 Order History
-            </Link>
+            </Link> -->
         </div>
     </div>
 </template>

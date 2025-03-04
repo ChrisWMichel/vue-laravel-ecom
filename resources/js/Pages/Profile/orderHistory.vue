@@ -34,6 +34,7 @@
                             </td>
                             <td class="p-2 text-center border">
                                 <img
+                                    v-if="order.products && order.products[0]"
                                     :src="
                                         getThumbnailUrl(
                                             order.products[0].thumbnail
@@ -42,6 +43,7 @@
                                     alt="Thumbnail"
                                     class="w-12"
                                 />
+                                <span v-else class="italic">No image</span>
                             </td>
                             <td class="p-2 text-center border">
                                 <!-- <Link
@@ -80,12 +82,22 @@
 <script setup>
 import userLayout from "@/Layouts/userLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
+import { defineProps, onMounted, ref } from "vue";
 import FormatPrice from "@/Components/UI/FormatPrice.vue";
 import profileNav from "./profileNav.vue";
 
 const props = defineProps({
     orders: Array,
 });
+
+onMounted(() => {
+    // Simulate data loading
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 3000);
+});
+
+console.log("orders", props.orders);
 const getThumbnailUrl = (thumbnail) => {
     return `/${thumbnail}`;
 };

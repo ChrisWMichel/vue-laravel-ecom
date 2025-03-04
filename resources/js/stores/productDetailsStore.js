@@ -59,6 +59,10 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
         };
     };
     const storeReview = (review) => {
+        if (!user) {
+            toast.error("User not authenticated.");
+            return;
+        }
         isLoading.value = true;
 
         const form = useForm({
