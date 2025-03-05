@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    # Allow access to the images directory
+    <Directory "/var/www/html/storage/images/products">
+        AllowOverride All
+        Require all granted
+    </Directory>
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
