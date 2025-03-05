@@ -26,7 +26,7 @@ const fetchPaymentLink = async () => {
             `${BASE_URL}/pay/order`,
             {
                 cartItems: cartStore.cartItems,
-                success_url: `http://127.0.0.1:8000/success/payment/${hash}`,
+                success_url: `https://vue-laravel-ecom-main-tpkbpw.laravel.cloud/success/payment/${hash}`,
             },
             {
                 headers: {
