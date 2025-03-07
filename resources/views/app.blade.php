@@ -18,6 +18,11 @@
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
 
         @inertiaHead
+
+        <script>
+            //window.APP_URL = "{{ config('app.url') }}";
+            window.API_URL = "{{ config('api.url') }}";
+        </script>
     </head>
     <body class="h-full m-0 font-sans antialiased">
         @inertia

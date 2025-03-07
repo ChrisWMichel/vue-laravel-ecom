@@ -52,6 +52,7 @@ const data = reactive({
 
 const applyCoupon = async () => {
     try {
+        console.log("coupon", BASE_URL);
         const response = await axios.post(
             `${BASE_URL}/apply/coupon`,
             data.coupon,

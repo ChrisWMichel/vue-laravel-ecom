@@ -15,6 +15,7 @@ export const useProductStore = defineStore("products", () => {
 
     const fetchAllProducts = async () => {
         isLoading.value = true;
+        console.log("productStore-fetch", BASE_URL);
         try {
             const response = await axios.get(`${BASE_URL}/products`);
             products.value = response.data.data;
@@ -31,7 +32,7 @@ export const useProductStore = defineStore("products", () => {
 
     const filterProducts = async (param, value) => {
         isLoading.value = true;
-
+        console.log("productStore-filter", BASE_URL);
         try {
             const response = await axios.get(
                 `${BASE_URL}/products/${value}/${param}`
