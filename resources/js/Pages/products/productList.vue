@@ -1,7 +1,6 @@
 <template>
     <div class="flex flex-col h-full bg-white rounded-lg shadow">
         <div class="cursor-pointer" @click="selectProduct">
-            {{ product.thumbnail }}
             <div class="text-center">
                 <img
                     :src="product.thumbnail"
@@ -91,7 +90,7 @@ import { useFavoriteStore } from "@/stores/useFavoriteStore";
 const props = defineProps({
     product: Object,
 });
-
+console.log(props.product.thumbnail);
 const favoriteStore = useFavoriteStore();
 
 const emit = defineEmits(["selectProduct"]);

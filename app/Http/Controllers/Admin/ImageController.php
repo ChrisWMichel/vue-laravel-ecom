@@ -41,7 +41,8 @@ class ImageController extends Controller
     {
         $image_name = time().'_'.$image->getClientOriginalName();
         $image->move(public_path('images/products'), $image_name);
-        return 'images/products/'.$image_name;
+        //return 'images/products/'.$image_name;
+        return $image_name;
     }
 
 }
