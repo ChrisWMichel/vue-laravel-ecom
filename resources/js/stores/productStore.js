@@ -17,12 +17,13 @@ export const useProductStore = defineStore("products", () => {
         isLoading.value = true;
         try {
             const response = await axios.get(`${BASE_URL}/products`);
-            products.value = response.data.data;
+            //products.value = response.data.data;
+            products.value = response.data.products;
             categories.value = response.data.categories;
             colors.value = response.data.colors;
             brands.value = response.data.brands;
             sizes.value = response.data.sizes;
-            console.log("products-Pinia", products.value);
+            console.log("response-Pinia", response);
         } catch (error) {
             console.log(error);
         } finally {
