@@ -29,28 +29,28 @@ class ProductController extends Controller
             'categories' => Category::has('products')->get(),
         ])->toJson(), true));
         
-        return ProductResource::collection(
-            Product::with(['colors','sizes','category','brand'])->latest()->get()
-        )->additional([
-            'colors' => Color::has('products')->get(),
-            'sizes' => Size::has('products')->get(),
-            'brands' => Brand::has('products')->get(),
-            'categories' => Category::has('products')->get(),
-        ]);
+        // return ProductResource::collection(
+        //     Product::with(['colors','sizes','category','brand'])->latest()->get()
+        // )->additional([
+        //     'colors' => Color::has('products')->get(),
+        //     'sizes' => Size::has('products')->get(),
+        //     'brands' => Brand::has('products')->get(),
+        //     'categories' => Category::has('products')->get(),
+        // ]);
 
-    //     $products = Product::with(['colors', 'sizes', 'category', 'brand'])->latest()->get();
-    // $colors = Color::has('products')->get();
-    // $sizes = Size::has('products')->get();
-    // $brands = Brand::has('products')->get();
-    // $categories = Category::has('products')->get();
+        $products = Product::with(['colors', 'sizes', 'category', 'brand'])->latest()->get();
+    $colors = Color::has('products')->get();
+    $sizes = Size::has('products')->get();
+    $brands = Brand::has('products')->get();
+    $categories = Category::has('products')->get();
 
-    // return response()->json([
-    //     'products' => $products,
-    //     'colors' => $colors,
-    //     'sizes' => $sizes,
-    //     'brands' => $brands,
-    //     'categories' => $categories,
-    // ]);
+    return response()->json([
+        'products' => $products,
+        'colors' => $colors,
+        'sizes' => $sizes,
+        'brands' => $brands,
+        'categories' => $categories,
+    ]);
        
     }
 
