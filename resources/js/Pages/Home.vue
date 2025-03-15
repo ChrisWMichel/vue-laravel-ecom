@@ -81,9 +81,9 @@ const slicedProducts = computed(() => {
         : [];
 });
 
-onMounted(() => {
-    productStore.fetchAllProducts();
-
+onMounted(async () => {
+    await productStore.fetchAllProducts();
+    console.log("productStore.products", productStore.products);
     if (flash.success) {
         Swal.fire({
             position: "top-end",
@@ -94,6 +94,7 @@ onMounted(() => {
         }).then(() => {
             flash.success = null;
         });
+        return { productStore };
     }
 });
 
