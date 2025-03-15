@@ -49,10 +49,10 @@ class Product extends Model
 
     public static function removeProductImageFromStorage($imagePath)
     {
-        $relativePath = str_replace('storage/', '', $imagePath);
+        $relativePath = str_replace('images/', '', $imagePath);
 
-        if ($relativePath && Storage::disk('public')->exists($relativePath)) {
-            Storage::disk('public')->delete($relativePath);
+        if ($relativePath && file_exists(public_path('images/'.$relativePath))) {
+            unlink(public_path('images/'.$relativePath));
         }
     }
 

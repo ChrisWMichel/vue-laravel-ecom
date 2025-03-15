@@ -141,8 +141,8 @@ class ProductController extends Controller
     private function saveImage($image)
     {
         $image_name = time().'_'.$image->getClientOriginalName();
-        $image->storeAs('images/products',$image_name,'public');
-        return 'storage/images/products/'.$image_name;
+        $image->move(public_path('images/products'), $image_name);
+        return 'images/products/'.$image_name;
     }
 
 

@@ -39,7 +39,7 @@ class User extends Authenticatable
     public function getImagePathAttribute()
     {
         if($this->profile_image) {
-            return  asset('storage/' . $this->profile_image);
+            return  asset('image/profile' . $this->profile_image);
         }
         return "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1737485719~exp=1737489319~hmac=a05e79c263ee8756510c45f0aed52759ef11f61f24a80f34c1a6543a977d74a5&w=996";
     }
@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public static function removeProfileImageFromStorage($imagePath)
     {
-        $relativePath = str_replace('storage/', '', $imagePath);
+        $relativePath = str_replace('images/', '', $imagePath);
 
         if ($relativePath && Storage::disk('public')->exists($relativePath)) {
             Storage::disk('public')->delete($relativePath);

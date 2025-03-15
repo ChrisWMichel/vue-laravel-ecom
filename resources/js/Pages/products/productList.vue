@@ -1,6 +1,7 @@
 <template>
     <div class="flex flex-col h-full bg-white rounded-lg shadow">
         <div class="cursor-pointer" @click="selectProduct">
+            {{ product.thumbnail }}
             <div class="text-center">
                 <img
                     :src="product.thumbnail"

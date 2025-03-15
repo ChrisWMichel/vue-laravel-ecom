@@ -112,6 +112,6 @@ class ProfileController extends Controller
     {
         $image_name = time().'_'.$image->getClientOriginalName();
         $image->storeAs('images/profile',$image_name,'public');
-        return 'storage/images/profile/'.$image_name;
+        return 'images/profile/'.$image_name;
     }
 }
