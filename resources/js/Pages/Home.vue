@@ -83,7 +83,7 @@ const slicedProducts = computed(() => {
 
 onMounted(async () => {
     await productStore.fetchAllProducts();
-    console.log("Home.vue-products", productStore.products);
+    //console.log("Home.vue-products", productStore.products);
     if (flash.success) {
         Swal.fire({
             position: "top-end",

@@ -23,7 +23,7 @@ export const useProductStore = defineStore("products", () => {
             colors.value = response.data.colors;
             brands.value = response.data.brands;
             sizes.value = response.data.sizes;
-            console.log("response-Pinia", response);
+            //console.log("response-Pinia", response);
         } catch (error) {
             console.log(error);
         } finally {
