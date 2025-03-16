@@ -31,6 +31,20 @@
                                     Home
                                 </NavLink>
                             </div>
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('admin.index')"
+                                    :active="route().current('admin.index')"
+                                >
+                                    <BuildingLibraryIcon
+                                        class="w-5 h-5 mr-2 text-indigo-400"
+                                        aria-hidden="true"
+                                    />
+                                    Admin Side
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
@@ -265,7 +279,11 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link } from "@inertiajs/vue3";
-import { HomeIcon, ShoppingCartIcon } from "@heroicons/vue/24/outline";
+import {
+    HomeIcon,
+    ShoppingCartIcon,
+    BuildingLibraryIcon,
+} from "@heroicons/vue/24/outline";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { useCartStore } from "@/stores/useCartStore";
 
