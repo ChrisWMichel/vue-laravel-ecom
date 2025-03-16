@@ -53,7 +53,7 @@ onMounted(() => {
 
 const loadMoreProducts = () => {
   if (data.productsToShow < productStore.products.length) {
-    data.productsToShow = data.productsToShow + 8;
+    data.productsToShow = data.productsToShow + 10;
   } else {
     return;
   }
