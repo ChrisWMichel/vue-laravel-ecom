@@ -11,7 +11,7 @@ class ReviewController extends Controller
 {
     public function index($productId)
     {
-        Log::info('Reviews: ', ['productId' => $productId]);
+        //Log::info('Reviews: ', ['productId' => $productId]);
         $reviews = Review::with('user')
         ->where('product_id', $productId)
         ->where('approved', 1)

@@ -13,7 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserAddressUpdateRequest;
-use Illuminate\Support\Facades\Log;
+//use Illuminate\Support\Facades\Log;
 
 
 class ProfileController extends Controller
@@ -59,12 +59,16 @@ class ProfileController extends Controller
             'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
 
-        if ($request->hasFile('profile_image') ) {
-            User::removeProfileImageFromStorage($request->user()->profile_image);
+        if ($request->hasFile('profile_image')) {
+            // Remove old image if exists
+            if ($request->user()->profile_image) {
+                User::removeProfileImageFromStorage($request->user()->profile_image);
+            }
+            
+            // Save new image
             $request->user()->profile_image = $this->saveImage($request->file('profile_image'));
+            $request->user()->save();
         }
-    
-        $request->user()->save();
 
         return Redirect::route('profile.edit')->with('success', 'Image updated successfully.');
     }
@@ -111,7 +115,15 @@ class ProfileController extends Controller
     private function saveImage($image)
     {
         $image_name = time().'_'.$image->getClientOriginalName();
-        $image->storeAs('images/profile',$image_name,'public');
-        return 'images/profile/'.$image_name;
+        
+        $directory = 'images/profile';
+        $fullPath = public_path($directory);
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+        
+        // Move the image to public directory
+        $image->move($fullPath, $image_name);
+        return $directory . '/' . $image_name;
     }
 }
