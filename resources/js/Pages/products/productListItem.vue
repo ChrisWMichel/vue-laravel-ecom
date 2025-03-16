@@ -143,10 +143,24 @@ const quantity = ref(1);
 const attributes = ref({});
 
 onMounted(() => {
-    console.log("onMounted-selectedProduct");
     if (productDetails.selectedProduct) {
-        productImages.value =
-            productDetails.selectedProduct.productImages || [];
+        // Use the images from the store
+        productImages.value = [...productDetails.productImages];
+        // If that's empty, try the cached property
+        if (
+            productImages.value.length === 0 &&
+            productDetails.selectedProduct.productImages
+        ) {
+            productImages.value = [
+                ...productDetails.selectedProduct.productImages,
+            ];
+        }
+        // If still empty, regenerate the images
+        if (productImages.value.length === 0) {
+            productDetails.getImages(productDetails.selectedProduct);
+            productImages.value = [...productDetails.productImages];
+        }
+        //console.log("productImages in component", productImages.value);
     }
 });
 
