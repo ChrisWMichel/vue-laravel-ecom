@@ -1,7 +1,13 @@
 <template>
     <div class="mt-5">
         <div class="mb-10 text-2xl text-center">
-            Reviews: {{ productDetails.selectedProduct.reviews.length }}
+            Reviews: {{ isLoading ? "..." : reviews.length }}
+            <!-- {{
+                productDetails.selectedProduct &&
+                productDetails.selectedProduct.reviews
+                    ? productDetails.selectedProduct.reviews.length
+                    : 0
+            }} -->
         </div>
         <div
             class="grid gap-2 lg:gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1"
@@ -72,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="productDetails.selectedProduct.reviews.length === 0">
+            <div v-if="reviews.length === 0">
                 <div class="text-2xl text-center">No reviews yet</div>
             </div>
         </div>
@@ -96,27 +102,52 @@ import { useProductDetailsStore } from "@/stores/productDetailsStore";
 import displayStarRating from "./displayStarRating.vue";
 import { usePage } from "@inertiajs/vue3";
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Modal from "@/Components/Modal.vue";
 import updateReview from "./updateReview.vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const user = usePage().props.auth.user || null;
+const isLoading = ref(true);
 
 const productDetails = useProductDetailsStore();
 const showModal = ref(false);
 const selectedReview = ref({});
 
-onMounted(() => {
+const reviews = computed(() => {
+    if (!productDetails.selectedProduct) return [];
+    return productDetails.selectedProduct.reviews || [];
+});
+
+onMounted(async () => {
     if (productDetails.selectedProduct) {
-        productDetails.fetchReviews(productDetails.selectedProduct.id);
+        try {
+            isLoading.value = true;
+            await productDetails.fetchReviews(
+                productDetails.selectedProduct.id
+            );
+            // console.log("Reviews after fetch:", productDetails.selectedProduct.reviews);
+        } catch (error) {
+            console.error("Error fetching reviews:", error);
+        } finally {
+            isLoading.value = false;
+        }
+    } else {
+        console.log("No selected product found");
+        isLoading.value = false;
     }
 });
 
-const fetchReviews = () => {
-    productDetails.fetchReviews(productDetails.selectedProduct.id);
-    toast.success("Review updated successfully");
+const fetchReviews = async () => {
+    if (productDetails.selectedProduct) {
+        isLoading.value = true;
+        await productDetails.fetchReviews(productDetails.selectedProduct.id);
+        isLoading.value = false;
+        toast.success("Review updated successfully");
+    } else {
+        console.error("Cannot fetch reviews: No product selected");
+    }
 };
 </script>
 

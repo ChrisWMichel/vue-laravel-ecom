@@ -109,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <display-review />
+        <displayReview />
         <div v-if="productDetails.selectedProduct && user">
             <addReview class="flex items-center justify-center w-full" />
         </div>
@@ -143,6 +143,7 @@ const quantity = ref(1);
 const attributes = ref({});
 
 onMounted(() => {
+    console.log("onMounted-selectedProduct");
     if (productDetails.selectedProduct) {
         productImages.value =
             productDetails.selectedProduct.productImages || [];

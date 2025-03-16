@@ -10,16 +10,18 @@ use Illuminate\Support\Facades\Log;
 class ReviewController extends Controller
 {
     public function index($productId)
-{
-    $reviews = Review::with('user')
-    ->where('product_id', $productId)
-    ->where('approved', 1)
-    ->get();
-    
-    return response()->json([
-        'reviews' => $reviews,
-    ]);
-}
+    {
+        Log::info('Reviews: ', ['productId' => $productId]);
+        $reviews = Review::with('user')
+        ->where('product_id', $productId)
+        ->where('approved', 1)
+        ->get();
+       // dd($reviews);
+      
+        return response()->json([
+            'reviews' => $reviews,
+        ]);
+    }
  
     /**
      * Store a newly created resource in storage.

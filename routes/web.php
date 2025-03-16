@@ -134,5 +134,10 @@ Route::post('store/review', [ReviewController::class, 'store'])->name('store.rev
 Route::put('update/review/{id}', [ReviewController::class, 'update'])->name('update.review');
 Route::delete('delete/review/{id}', [ReviewController::class, 'destroy'])->name('delete.review');
 
+// Route::get('reviews/{productId}', function($productId) {
+//     \Illuminate\Support\Facades\Log::info('Reviews route hit with productId: ' . $productId);
+//     return app()->make(ReviewController::class)->index($productId);
+// })->name('reviews.index')->middleware('log.requests');
+
 
 require __DIR__.'/auth.php';

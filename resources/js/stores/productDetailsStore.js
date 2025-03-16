@@ -17,14 +17,21 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
         ref(JSON.parse(localStorage.getItem("selectedProduct"))) || ref(null);
 
     const setSelectedProduct = (product) => {
-        selectedProduct.value = { ...product, productImages: [] };
-        getImages(product);
-        selectedProduct.value.productImages = productImages.value;
+        // selectedProduct.value = { ...product, productImages: [] };
+        // getImages(product);
+        // selectedProduct.value.productImages = productImages.value;
 
-        localStorage.setItem(
-            "selectedProduct",
-            JSON.stringify(selectedProduct.value)
-        );
+        // localStorage.setItem(
+        //     "selectedProduct",
+        //     JSON.stringify(selectedProduct.value)
+        // );
+        if (!product.reviews) {
+            product.reviews = [];
+        }
+        selectedProduct.value = product;
+        localStorage.setItem("selectedProduct", JSON.stringify(product));
+        productImages.value = [];
+        getImages(product);
     };
 
     const unsetSelectedProduct = () => {
@@ -137,14 +144,20 @@ export const useProductDetailsStore = defineStore("productDetails", () => {
 
     const fetchReviews = async (productId) => {
         isLoading.value = true;
+        const url = `/reviews/${productId}`;
+        console.log("Requesting URL:", window.location.origin + url);
+
         try {
-            const response = await axios.get(`/reviews/${productId}`);
+            const response = await axios.get(url);
+            console.log("Axios response:", response);
             if (response.data.reviews) {
                 selectedProduct.value.reviews = response.data.reviews;
             } else {
+                selectedProduct.value.reviews = [];
                 toast.error("Failed to fetch reviews.");
             }
         } catch (error) {
+            selectedProduct.value.reviews = [];
             toast.error("Failed to fetch reviews.");
             console.error(error);
         } finally {

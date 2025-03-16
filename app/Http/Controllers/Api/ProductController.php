@@ -11,7 +11,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
-use Illuminate\Support\Facades\Log;
+//use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -20,55 +20,22 @@ class ProductController extends Controller
      */
     public function index()
     {
-        Log::info('ProductController@index', json_decode(ProductResource::collection(
-            Product::with(['colors','sizes','category','brand'])->latest()->get()
-        )->additional([
-            'colors' => Color::has('products')->get(),
-            'sizes' => Size::has('products')->get(),
-            'brands' => Brand::has('products')->get(),
-            'categories' => Category::has('products')->get(),
-        ])->toJson(), true));
-        
-        // return ProductResource::collection(
-        //     Product::with(['colors','sizes','category','brand'])->latest()->get()
-        // )->additional([
-        //     'colors' => Color::has('products')->get(),
-        //     'sizes' => Size::has('products')->get(),
-        //     'brands' => Brand::has('products')->get(),
-        //     'categories' => Category::has('products')->get(),
-        // ]);
-
         $products = Product::with(['colors', 'sizes', 'category', 'brand'])->latest()->get();
-    $colors = Color::has('products')->get();
-    $sizes = Size::has('products')->get();
-    $brands = Brand::has('products')->get();
-    $categories = Category::has('products')->get();
+        $colors = Color::has('products')->get();
+        $sizes = Size::has('products')->get();
+        $brands = Brand::has('products')->get();
+        $categories = Category::has('products')->get();
 
-    return response()->json([
-        'products' => $products,
-        'colors' => $colors,
-        'sizes' => $sizes,
-        'brands' => $brands,
-        'categories' => $categories,
-    ]);
+        return response()->json([
+            'products' => $products,
+            'colors' => $colors,
+            'sizes' => $sizes,
+            'brands' => $brands,
+            'categories' => $categories,
+        ]);
        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Get product by slug
