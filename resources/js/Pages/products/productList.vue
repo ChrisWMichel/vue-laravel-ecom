@@ -103,17 +103,25 @@ const toggleFavorite = (product) => {
 // calculate the average of reviews
 const averageRating = computed(() => {
   const starNum = props.product?.reviews;
+  console.log("Reviews data:", starNum);
+
   if (!Array.isArray(starNum) || starNum.length === 0) {
-    numberOfReviews.value = 0; // Reset the number of reviews if no data
+    numberOfReviews.value = 0;
     return 0;
   }
+
   numberOfReviews.value = starNum.length;
   const total = starNum.reduce((acc, review) => acc + (review.rating || 0), 0);
-  return total / starNum.length;
+  const avg = total / starNum.length;
+
+  console.log("Average rating calculated:", avg);
+  return avg;
 });
 
 const stars = computed(() => {
-  return props.product && props.product.reviews ? averageRating.value : 0;
+  const value = props.product && props.product.reviews ? averageRating.value : 0;
+  console.log("Stars value:", value);
+  return value;
 });
 </script>
 
