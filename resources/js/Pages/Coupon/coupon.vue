@@ -6,18 +6,19 @@
                 Add
                 <span
                     class="p-1 font-bold text-gray-300 bg-green-600 rounded-md"
-                    >Vuejs</span
+                    >LARAVEL</span
                 >
-                in the coupon field to get 20% off!
+                in the coupon field to get 50% off!
             </p>
             <div class="col-span-12">
                 <div class="flex">
                     <input
                         id="coupon"
-                        v-model="data.coupon.name"
+                        v-model="couponInput"
                         type="text"
                         placeholder="Enter coupon name..."
-                        class="px-4 py-2 border rounded-l-md"
+                        class="px-4 py-2 uppercase border rounded-l-md"
+                        @input="handleCouponInput"
                     />
                     <button
                         class="px-4 py-2 text-white bg-gray-800 cursor-pointer rounded-r-md disabled:cursor-not-allowed disabled:opacity-50"
@@ -36,19 +37,26 @@
 import { usePage } from "@inertiajs/vue3";
 import { useCartStore } from "@/stores/useCartStore";
 import { useToast } from "vue-toastification";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import axios from "axios";
 import { BASE_URL } from "@/helpers/config";
 
 const cartStore = useCartStore();
 const toast = useToast();
 const user = usePage().props.auth.user;
+const couponInput = ref("");
 
 const data = reactive({
     coupon: {
         name: "",
     },
 });
+
+const handleCouponInput = (event) => {
+    // Convert to uppercase
+    couponInput.value = event.target.value.toUpperCase();
+    data.coupon.name = couponInput.value;
+};
 
 const applyCoupon = async () => {
     try {
@@ -88,4 +96,8 @@ const applyCoupon = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+input.uppercase {
+    text-transform: uppercase;
+}
+</style>
