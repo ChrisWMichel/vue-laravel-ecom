@@ -11,7 +11,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
-//use Illuminate\Support\Facades\Log;
+use App\Models\Review;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -20,19 +21,38 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['colors', 'sizes', 'category', 'brand'])->latest()->get();
-        $colors = Color::has('products')->get();
-        $sizes = Size::has('products')->get();
-        $brands = Brand::has('products')->get();
-        $categories = Category::has('products')->get();
-
-        return response()->json([
-            'products' => $products,
-            'colors' => $colors,
-            'sizes' => $sizes,
-            'brands' => $brands,
-            'categories' => $categories,
-        ]);
+        try {
+            //Log::info('ProductController index method called');
+            
+            $products = Product::with([
+                'colors', 
+                'sizes', 
+                'category', 
+                'brand',
+                'reviews'
+            ])->latest()->get();
+            
+            $colors = Color::has('products')->get();
+            $sizes = Size::has('products')->get();
+            $brands = Brand::has('products')->get();
+            $categories = Category::has('products')->get();
+    
+            return response()->json([
+                'products' => $products,
+                'colors' => $colors,
+                'sizes' => $sizes,
+                'brands' => $brands,
+                'categories' => $categories,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in ProductController index: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+            
+            return response()->json([
+                'error' => 'An error occurred while fetching products',
+                'message' => $e->getMessage()
+            ], 500);
+        }
        
     }
 

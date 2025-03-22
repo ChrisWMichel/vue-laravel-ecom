@@ -84,6 +84,8 @@ import { useFavoriteStore } from "@/stores/useFavoriteStore";
 const props = defineProps({
   product: Object,
 });
+
+//console.log("product", props.product);
 const favoriteStore = useFavoriteStore();
 
 const emit = defineEmits(["selectProduct"]);
@@ -103,7 +105,7 @@ const toggleFavorite = (product) => {
 // calculate the average of reviews
 const averageRating = computed(() => {
   const starNum = props.product?.reviews;
-  console.log("Reviews data:", starNum);
+  //console.log("Reviews data:", starNum);
 
   if (!Array.isArray(starNum) || starNum.length === 0) {
     numberOfReviews.value = 0;
@@ -114,13 +116,13 @@ const averageRating = computed(() => {
   const total = starNum.reduce((acc, review) => acc + (review.rating || 0), 0);
   const avg = total / starNum.length;
 
-  console.log("Average rating calculated:", avg);
+  //console.log("Average rating calculated:", avg);
   return avg;
 });
 
 const stars = computed(() => {
   const value = props.product && props.product.reviews ? averageRating.value : 0;
-  console.log("Stars value:", value);
+  //console.log("Stars value:", value);
   return value;
 });
 </script>

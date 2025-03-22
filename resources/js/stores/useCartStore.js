@@ -4,12 +4,27 @@ import { useToast } from "vue-toastification";
 
 export const useCartStore = defineStore("cart", () => {
     const cartItems = ref(JSON.parse(localStorage.getItem("cartItems")) || []);
-    const validCoupon = ref(
-        JSON.parse(localStorage.getItem("validCoupon")) || {
+    // const validCoupon = ref(
+    //     JSON.parse(localStorage.getItem("validCoupon")) || {
+    //         name: "",
+    //         discount: 0,
+    //     }
+    // );
+    const validCoupon = ref(() => {
+        try {
+            const storedCoupon = localStorage.getItem("validCoupon");
+            if (storedCoupon) {
+                return JSON.parse(storedCoupon);
+            }
+        } catch (error) {
+            console.error("Error parsing validCoupon from localStorage:", error);
+            localStorage.removeItem("validCoupon"); // Clear invalid data
+        }
+        return {
             name: "",
             discount: 0,
-        }
-    );
+        };
+    });
     const uniqueHash = ref(localStorage.getItem("uniqueHash") || "");
     const toast = useToast();
 
@@ -138,8 +153,12 @@ export const useCartStore = defineStore("cart", () => {
     };
 
     const setValidCoupon = (coupon) => {
-        validCoupon.value = coupon;
-        localStorage.setItem("validCoupon", JSON.stringify(validCoupon.value));
+        validCoupon.value = coupon || { name: "", discount: 0 };
+        try {
+            localStorage.setItem("validCoupon", JSON.stringify(validCoupon.value));
+        } catch (error) {
+            console.error("Error saving validCoupon to localStorage:", error);
+        }
     };
 
     const addCouponToCartItems = (coupon_id) => {

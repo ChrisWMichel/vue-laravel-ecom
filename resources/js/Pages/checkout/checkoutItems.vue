@@ -151,11 +151,21 @@ const taxes = computed(() => {
 
 // calculate discount
 const coupon = computed(() => {
-    return cartStore.getTotalPrice * (cartStore.validCoupon.discount / 100);
+    //return cartStore.getTotalPrice * (cartStore.validCoupon.discount / 100);
+     // Check if validCoupon exists and has a discount property
+     if (cartStore.validCoupon && typeof cartStore.validCoupon.discount === 'number') {
+        return cartStore.getTotalPrice * (cartStore.validCoupon.discount / 100);
+    }
+    return 0;
 });
 // calculate total
 const total = computed(() => {
-    return cartStore.getTotalPrice + taxes.value - coupon.value;
+    //return cartStore.getTotalPrice + taxes.value - coupon.value;
+    const subtotal = cartStore.getTotalPrice || 0;
+    const taxValue = taxes.value || 0;
+    const discountValue = coupon.value || 0;
+    
+    return subtotal + taxValue - discountValue;
 });
 </script>
 

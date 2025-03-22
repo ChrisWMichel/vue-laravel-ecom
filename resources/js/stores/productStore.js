@@ -12,6 +12,7 @@ export const useProductStore = defineStore("products", () => {
     const sizes = ref([]);
     const isLoading = ref(false);
     const filter = ref(null);
+    const reviews = ref([]);
 
     const fetchAllProducts = async () => {
         isLoading.value = true;
@@ -23,6 +24,7 @@ export const useProductStore = defineStore("products", () => {
             colors.value = response.data.colors;
             brands.value = response.data.brands;
             sizes.value = response.data.sizes;
+            reviews.value = response.data.reviews;
             //console.log("response-Pinia", response);
         } catch (error) {
             console.log(error);
@@ -84,6 +86,7 @@ export const useProductStore = defineStore("products", () => {
         sizes,
         isLoading,
         filter,
+        reviews,
         fetchAllProducts,
         filterProducts,
         clearFilters,
