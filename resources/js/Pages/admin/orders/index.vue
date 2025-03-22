@@ -26,7 +26,7 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="p-2 text-center border">#</th>
-                        <th class="p-2 text-center border">Name</th>
+                        <th class="p-2 text-center border">Product</th>
                         <th class="p-2 text-center border">Price</th>
                         <th class="p-2 text-center border">By</th>
                         <th class="p-2 text-center border">Coupon</th>
@@ -47,15 +47,17 @@
                         }"
                     >
                         <td class="p-2 text-center border">{{ index + 1 }}</td>
+                       
                         <td class="p-2 text-center border">
-                            {{ order.products.name }}
+                            {{ order.products && order.products.length > 0 ? order.products[0].name : 'N/A' }}
                         </td>
                         <td class="p-2 text-center border">
-                            {{ order.price }}
+                            {{ order.products && order.products.length > 0 ? order.products[0].price : 'N/A' }}
                         </td>
                         <td class="p-2 text-center border">
                             {{ order.user.name }}
                         </td>
+                       
                         <td class="p-2 text-center border">
                             <span
                                 v-if="order.coupon"
