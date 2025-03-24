@@ -166,47 +166,53 @@ class ProductController extends Controller
     private function saveImage($image)
     {
         $path = 'images/products';
-        $image_name = time().'_'.$image->getClientOriginalName();
-        $fullPath = $path.'/'.$image_name;
+    $image_name = time().'_'.$image->getClientOriginalName();
+    $fullPath = $path.'/'.$image_name;
+    
+    // Get bucket name from environment
+    $bucket = env('AWS_BUCKET');
+    
+    // Log bucket name to verify it's set
+    Log::info("Using S3 bucket: " . $bucket);
+    
+    if (empty($bucket)) {
+        Log::error("AWS_BUCKET environment variable is not set!");
+        throw new \Exception("AWS bucket name is not configured");
+    }
+    
+    try {
+        // Try a different approach to upload the file
+        $fileContents = file_get_contents($image->getRealPath());
+        
+        // Get the S3 client directly to access more detailed error information
+        $s3Client = Storage::disk('s3')->getClient();
         
         try {
-            // Try a different approach to upload the file
-            $fileContents = file_get_contents($image->getRealPath());
+            // Use the S3 client directly with explicit bucket name
+            $result = $s3Client->putObject([
+                'Bucket' => $bucket,
+                'Key'    => $fullPath,
+                'Body'   => $fileContents,
+                'ContentType' => $image->getMimeType()
+            ]);
             
-            // Get the S3 client directly to access more detailed error information
-            $s3Client = Storage::disk('s3')->getClient();
+            //Log::info("S3 put successful. RequestId: " . ($result['RequestId'] ?? 'N/A'));
             
-            try {
-                // Use the S3 client directly
-                $result = $s3Client->putObject([
-                    'Bucket' => env('AWS_BUCKET'),
-                    'Key'    => $fullPath,
-                    'Body'   => $fileContents,
-                    'ContentType' => $image->getMimeType()
-                ]);
-                
-                Log::info("ImageController: S3 put successful. RequestId: " . $result['RequestId']);
-                
-                // Return the absolute URL to the image
-                $url = $result['ObjectURL'] ?? Storage::disk('s3')->url($fullPath);
-                
-                Log::info('ImageController: Generated S3 image URL: ' . $url);
-                
-                return $url;
-            } catch (\Aws\S3\Exception\S3Exception $e) {
-                // This will catch specific AWS S3 exceptions
-                Log::error("ImageController: AWS S3 Exception: " . $e->getMessage());
-                Log::error("ImageController: AWS Error Code: " . $e->getAwsErrorCode());
-                Log::error("ImageController: AWS Error Type: " . $e->getAwsErrorType());
-                Log::error("ImageController: AWS Request ID: " . $e->getAwsRequestId());
-                Log::error("ImageController: AWS Extended Request ID: " . $e->getResponse()->getHeaderLine('x-amz-id-2'));
-                throw $e;
-            }
-        } catch (\Exception $e) {
-            Log::error("ImageController: General exception: " . $e->getMessage());
-            Log::error("ImageController: " . $e->getTraceAsString());
+            // Construct the URL manually
+            $url = "https://{$bucket}.s3." . env('AWS_DEFAULT_REGION') . ".amazonaws.com/{$fullPath}";
+            
+            //Log::info('Generated S3 image URL: ' . $url);
+            
+            return $url;
+        } catch (\Aws\S3\Exception\S3Exception $e) {
+            // This will catch specific AWS S3 exceptions
+            Log::error("AWS S3 Exception: " . $e->getMessage());
             throw $e;
         }
+    } catch (\Exception $e) {
+        Log::error("General exception: " . $e->getMessage());
+        throw $e;
+    }
 
         
     }
