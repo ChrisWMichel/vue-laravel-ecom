@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 's3'),
 
     /*
     |--------------------------------------------------------------------------
@@ -49,18 +49,17 @@ return [
 
         's3' => [
             'driver' => 's3',
-        'key' => env('AWS_ACCESS_KEY_ID', 'AKIAYS77COLI5EZD6IHQ'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY', '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'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-2'),
-        'bucket' => env('AWS_BUCKET', 'images-cwm-portfolio'),
-        'url' => env('AWS_URL', 'https://images-cwm-portfolio.s3.us-east-2.amazonaws.com'),
-        'endpoint' => env('AWS_ENDPOINT', 'https://s3.us-east-2.amazonaws.com'),
-        'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-        'throw' => false,
-        'visibility' => 'public',
-        'report' => false,
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION', 'us-east-2'),
+            'bucket' => env('AWS_BUCKET', 'images-cwm-portfolio'),
+            'url' => env('AWS_URL', 'https://images-cwm-portfolio.s3.us-east-2.amazonaws.com'),
+            'endpoint' => env('AWS_ENDPOINT', 'https://s3.us-east-2.amazonaws.com'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'visibility' => 'public',
+            'report' => false,
         ],
-
     ],
 
     /*
@@ -77,6 +76,4 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-    'default' => env('FILESYSTEM_DISK', 's3'),
-
 ];
