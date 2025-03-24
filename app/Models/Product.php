@@ -49,10 +49,26 @@ class Product extends Model
 
     public static function removeProductImageFromStorage($imagePath)
     {
-        $relativePath = str_replace('images/', '', $imagePath);
-
-        if ($relativePath && file_exists(public_path('images/'.$relativePath))) {
-            unlink(public_path('images/'.$relativePath));
+        if (!$imagePath) {
+            return;
+        }
+        
+        // Check if it's an S3 URL
+        if (strpos($imagePath, 's3.') !== false) {
+            // Extract the path from the full URL
+            $path = parse_url($imagePath, PHP_URL_PATH);
+            $path = ltrim($path, '/');
+            
+            // Delete from S3
+            if (Storage::disk('s3')->exists($path)) {
+                Storage::disk('s3')->delete($path);
+            }
+        } else {
+            // Handle local storage (legacy code)
+            $relativePath = str_replace('images/', '', $imagePath);
+            if ($relativePath && file_exists(public_path('images/'.$relativePath))) {
+                unlink(public_path('images/'.$relativePath));
+            }
         }
     }
 
