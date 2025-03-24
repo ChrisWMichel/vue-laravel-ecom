@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SizeController;
@@ -139,5 +140,30 @@ Route::delete('delete/review/{id}', [ReviewController::class, 'destroy'])->name(
 //     return app()->make(ReviewController::class)->index($productId);
 // })->name('reviews.index')->middleware('log.requests');
 
+Route::get('/debug-env', function () {
+    return [
+        'FILESYSTEM_DISK' => env('FILESYSTEM_DISK'),
+        'AWS_BUCKET' => env('AWS_BUCKET'),
+        'AWS_DEFAULT_REGION' => env('AWS_DEFAULT_REGION'),
+        'AWS_URL' => env('AWS_URL'),
+    ];
+})->middleware('admin'); 
+
+Route::get('/test-s3', function () {
+    try {
+        $result = Storage::disk('s3')->put('test.txt', 'Hello World');
+        return [
+            'success' => $result,
+            'message' => 'S3 test successful',
+            'disk' => config('filesystems.default'),
+            'bucket' => env('AWS_BUCKET'),
+        ];
+    } catch (\Exception $e) {
+        return [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ];
+    }
+})->middleware('admin'); 
 
 require __DIR__.'/auth.php';
