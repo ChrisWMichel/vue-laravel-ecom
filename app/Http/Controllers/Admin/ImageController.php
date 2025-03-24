@@ -11,22 +11,34 @@ use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
 {
     public function deleteImage(Product $product, $imageField)
-    {
-        if ($product->$imageField) {
+{
+    if ($product->$imageField) {
+        try {
             $path = parse_url($product->$imageField, PHP_URL_PATH);
             $path = ltrim($path, '/');
             
-            // Delete from S3
-            if (Storage::disk('s3')->exists($path)) {
-                Storage::disk('s3')->delete($path);
+            // Delete from S3 with error handling
+            try {
+                if (Storage::disk('s3')->exists($path)) {
+                    Storage::disk('s3')->delete($path);
+                }
+            } catch (\Exception $e) {
+                Log::warning("Failed to delete S3 image but continuing: " . $e->getMessage());
+                // Continue even if S3 delete fails
             }
             
             $product->$imageField = null;
             $product->save();
+            
+            return response()->json(['message' => ucfirst($imageField) . ' deleted successfully']);
+        } catch (\Exception $e) {
+            Log::error("Error in deleteImage: " . $e->getMessage());
+            return response()->json(['message' => 'Error deleting image: ' . $e->getMessage()], 500);
         }
-
-        //return response()->json(['message' => ucfirst($imageField) . ' deleted successfully']);
     }
+    
+    //return response()->json(['message' => 'No image to delete']);
+}
 
     public function updateImage(Request $request, Product $product, $imageField)
     {
@@ -35,13 +47,23 @@ class ImageController extends Controller
         ]);
     
         if ($product->$imageField) {
-            // Extract the path from the full URL
-            $path = parse_url($product->$imageField, PHP_URL_PATH);
-            $path = ltrim($path, '/');
-            
-            // Delete from S3
-            if (Storage::disk('s3')->exists($path)) {
-                Storage::disk('s3')->delete($path);
+            try {
+                // Extract the path from the full URL
+                $path = parse_url($product->$imageField, PHP_URL_PATH);
+                $path = ltrim($path, '/');
+                
+                // Delete from S3 - with error handling
+                try {
+                    if (Storage::disk('s3')->exists($path)) {
+                        Storage::disk('s3')->delete($path);
+                    }
+                } catch (\Exception $e) {
+                    Log::warning("Failed to delete previous image, but continuing: " . $e->getMessage());
+                    // Continue with upload even if delete fails
+                }
+            } catch (\Exception $e) {
+                Log::warning("Error parsing previous image URL: " . $e->getMessage());
+                // Continue with upload even if URL parsing fails
             }
         }
     
