@@ -30,7 +30,7 @@ class ImageController extends Controller
             $product->$imageField = null;
             $product->save();
             
-            return response()->json(['message' => ucfirst($imageField) . ' deleted successfully']);
+            //return response()->json(['message' => ucfirst($imageField) . ' deleted successfully']);
         } catch (\Exception $e) {
             Log::error("Error in deleteImage: " . $e->getMessage());
             return response()->json(['message' => 'Error deleting image: ' . $e->getMessage()], 500);
