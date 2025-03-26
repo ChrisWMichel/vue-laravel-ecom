@@ -98,7 +98,7 @@ class ImageController extends Controller
         Log::info("Using S3 bucket: " . $bucket);
         
         if (empty($bucket)) {
-            Log::error("AWS_BUCKET environment variable is not set!");
+           // Log::error("AWS_BUCKET environment variable is not set!");
             throw new \Exception("AWS bucket name is not configured");
         }
         
@@ -118,12 +118,12 @@ class ImageController extends Controller
                     'ContentType' => $image->getMimeType()
                 ]);
                 
-                Log::info("S3 put successful. RequestId: " . ($result['RequestId'] ?? 'N/A'));
+                //Log::info("S3 put successful. RequestId: " . ($result['RequestId'] ?? 'N/A'));
                 
                 // Construct the URL manually
                 $url = "https://{$bucket}.s3." . env('AWS_DEFAULT_REGION') . ".amazonaws.com/{$fullPath}";
                 
-                Log::info('Generated S3 image URL: ' . $url);
+                //Log::info('Generated S3 image URL: ' . $url);
                 
                 return $url;
             } catch (\Aws\S3\Exception\S3Exception $e) {

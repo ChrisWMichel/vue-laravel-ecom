@@ -8,8 +8,10 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserAddressUpdateRequest;
@@ -114,16 +116,53 @@ class ProfileController extends Controller
 
     private function saveImage($image)
     {
+        $path = 'images/profiles';
         $image_name = time().'_'.$image->getClientOriginalName();
+        $fullPath = $path.'/'.$image_name;
         
-        $directory = 'images/profile';
-        $fullPath = public_path($directory);
-        if (!file_exists($fullPath)) {
-            mkdir($fullPath, 0755, true);
+        // Get bucket name from environment
+        $bucket = env('AWS_BUCKET');
+        
+        // Log bucket name to verify it's set
+        Log::info("Using S3 bucket: " . $bucket);
+        
+        if (empty($bucket)) {
+           // Log::error("AWS_BUCKET environment variable is not set!");
+            throw new \Exception("AWS bucket name is not configured");
         }
         
-        // Move the image to public directory
-        $image->move($fullPath, $image_name);
-        return $directory . '/' . $image_name;
+        try {
+            // Try a different approach to upload the file
+            $fileContents = file_get_contents($image->getRealPath());
+            
+            // Get the S3 client directly to access more detailed error information
+            $s3Client = Storage::disk('s3')->getClient();
+            
+            try {
+                // Use the S3 client directly with explicit bucket name
+                $result = $s3Client->putObject([
+                    'Bucket' => $bucket,
+                    'Key'    => $fullPath,
+                    'Body'   => $fileContents,
+                    'ContentType' => $image->getMimeType()
+                ]);
+                
+                //Log::info("S3 put successful. RequestId: " . ($result['RequestId'] ?? 'N/A'));
+                
+                // Construct the URL manually
+                $url = "https://{$bucket}.s3." . env('AWS_DEFAULT_REGION') . ".amazonaws.com/{$fullPath}";
+                
+                //Log::info('Generated S3 image URL: ' . $url);
+                
+                return $url;
+            } catch (\Aws\S3\Exception\S3Exception $e) {
+                // This will catch specific AWS S3 exceptions
+                Log::error("AWS S3 Exception: " . $e->getMessage());
+                throw $e;
+            }
+        } catch (\Exception $e) {
+            Log::error("General exception: " . $e->getMessage());
+            throw $e;
+        }
     }
 }

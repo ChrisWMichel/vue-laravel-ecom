@@ -56,12 +56,17 @@
                         <td
                             class="flex p-2 text-center text-gray-400 border justify-self-center"
                         >
-                            <img
-                                v-if="user.profile_image"
-                                :src="getThumbnailUrl(user.profile_image)"
-                                alt="profile image"
-                                class="w-10 h-10 rounded-full"
-                            />
+                        <img
+                            :src="user.profile_image ? 
+                                (user.profile_image.includes('amazonaws.com') ? 
+                                    (user.profile_image.includes('https://') ? 
+                                    user.profile_image.substring(user.profile_image.indexOf('https://')) : 
+                                    user.profile_image) : 
+                                    profileImageUrl(user.profile_image)) : 
+                                '/default-profile.png'"
+                            class="w-10 h-10 rounded-full"
+                            alt="profile image"
+                        />
                         </td>
                         <td class="p-2 text-center border">
                             {{ user.created_at }}
@@ -93,7 +98,7 @@ import adminLayout from "@/Layouts/adminLayout.vue";
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import PaginationList from "@/Components/UI/PaginationList.vue";
 import Swal from "sweetalert2";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, nextTick } from "vue";
 
 const props = defineProps({
     users: Object,
@@ -102,6 +107,32 @@ const props = defineProps({
 
 const searchQuery = ref("");
 
+const fixS3ImageUrls = () => {
+  // Find all images with S3 URLs
+  const images = document.querySelectorAll('img[src*="amazonaws.com"]');
+  
+  images.forEach(img => {
+    const currentSrc = img.getAttribute('src');
+    if (currentSrc) {
+      // Find the position of https:// in the string
+      const httpsPos = currentSrc.indexOf('https://');
+      console.log('httpsPos', httpsPos);
+      if (httpsPos > 0) {
+        // Extract only from https:// onwards
+        const fixedSrc = currentSrc.substring(httpsPos);
+        console.log('fixedSrc', fixedSrc);
+        img.setAttribute('src', fixedSrc);
+        console.log('Fixed S3 image URL:', fixedSrc);
+      }
+    }
+  });
+};
+
+onMounted(() => {
+  nextTick(() => {
+    fixS3ImageUrls();
+  });
+});
 const filteredUsers = computed(() => {
     if (!searchQuery.value) {
         return props.users.data;
@@ -113,9 +144,46 @@ const filteredUsers = computed(() => {
 
 const usersCount = computed(() => props.users.data.length);
 
-const getThumbnailUrl = (thumbnail) => {
-    return `/${thumbnail}`;
+const createProxyUrl = (url) => {
+    // Remove any protocol and domain part to get just the path
+    if (url.includes('amazonaws.com')) {
+        // Create a proxy URL that your server can handle
+        return `/image-proxy?url=${encodeURIComponent(url)}`;
+    }
+    return url;
 };
+
+const asset = (path) => {
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  return `/${cleanPath}`;
+};
+
+const profileImageUrl = (profileImage) => {
+    if (!profileImage) return "/default-profile.png";
+    
+    // For S3 URLs
+    if (profileImage.includes('s3.') || profileImage.includes('amazonaws.com')) {
+        // Extract just the S3 URL part using regex
+        const s3UrlMatch = profileImage.match(/(https?:\/\/.*amazonaws\.com\/.*)/);
+        if (s3UrlMatch && s3UrlMatch[1]) {
+            // Use the full URL directly without any modification
+            // This is a direct approach that bypasses Vue's URL handling
+            return s3UrlMatch[1];
+        }
+    }
+    
+    // For other URLs
+    if (profileImage.includes("http://") || profileImage.includes("https://")) {
+        return profileImage;
+    }
+    
+    // For relative paths
+    return asset(profileImage);
+};
+
+// const getThumbnailUrl = (thumbnail) => {
+//     return `${thumbnail}`;
+// };
 
 const deleteUser = (user) => {
     Swal.fire({
