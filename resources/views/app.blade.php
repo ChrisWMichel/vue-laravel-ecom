@@ -21,8 +21,8 @@
     @inertiaHead
 
     <script>
-        //window.APP_URL = "{{ config('app.url') }}";
-        window.API_URL = "{{ config('api.url') }}";
+        window.APP_URL = "{{ config('app.url') }}";
+        window.API_URL = "{{ config('app.url') }}/api";
     </script>
 </head>
 

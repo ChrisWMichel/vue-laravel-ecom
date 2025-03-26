@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
-import { BASE_URL } from "../helpers/config";
+import { api, BASE_URL } from "../helpers/config";
 
 export const useProductStore = defineStore("products", () => {
     // State
@@ -16,8 +16,9 @@ export const useProductStore = defineStore("products", () => {
 
     const fetchAllProducts = async () => {
         isLoading.value = true;
+        console.log("Fetching products from:", `${BASE_URL}/products`);
         try {
-            const response = await axios.get(`${BASE_URL}/products`);
+            const response = await api.get(`/products`);
             //products.value = response.data.data;
             products.value = response.data.products;
             categories.value = response.data.categories;

@@ -1,20 +1,35 @@
-//export const BASE_URL = "http://127.0.0.1:8000/api";
+import axios from "axios";
 
-//export const BASE_URL =
- //   "https://vue-laravel-ecom-main-tpkbpw.laravel.cloud/api";
-export const BASE_URL =import.meta.env.VITE_API_URL;
+export const api = axios.create({
+    baseURL: (() => {
+        // Use the current domain for API calls in all environments
+        return `${window.location.origin}/api`;
+    })(),
+    withCredentials: true,
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+});
 
-export const headersConfig = (token, contentType) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-type": contentType || "application/json",
-        },
-    };
-    return config;
-};
+//export const BASE_URL = import.meta.env.VITE_API_URL || window.API_URL || "/api";
+export const BASE_URL = api.defaults.baseURL;
+
+// export const headersConfig = (token, contentType) => {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//             "Content-type": contentType || "application/json",
+//         },
+//     };
+//     return config;
+// };
 
 //create a unique ref for each product
+
+
+
 export const makeUniqueId = (length) => {
     let result = "";
     const characters =
@@ -29,3 +44,4 @@ export const makeUniqueId = (length) => {
     }
     return result;
 };
+

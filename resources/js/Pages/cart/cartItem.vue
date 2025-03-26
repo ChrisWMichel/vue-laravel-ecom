@@ -3,7 +3,7 @@
         <div class="flex items-center justify-center">
             <img
                 class="w-20 h-20 mb-1 rounded-lg"
-                :src="getImageUrl(product.thumbnail)"
+                :src="isAbsoluteUrl(product.thumbnail) ? product.thumbnail : ''"
                 :alt="product.name"
             />
         </div>
@@ -73,6 +73,11 @@ const emit = defineEmits(["removeItem"]);
 
 const emitRemoveItem = () => {
     emit("removeItem", props.product);
+};
+
+const isAbsoluteUrl = (url) => {
+  if (!url) return false;
+  return url.startsWith("http://") || url.startsWith("https://");
 };
 
 const quantity = ref(props.product.qty);
